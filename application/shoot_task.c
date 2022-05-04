@@ -297,7 +297,7 @@ void shoot_set_control(void)
         shoot_bullet_control();
         //步进电机控制模式
         HAL_GPIO_WritePin(PUSH_TRIGGER_GPIO_Port, TRIGGER_Pin, GPIO_PIN_RESET);
-        servo_speed_set(10, 3);
+        servo_speed_set(50, 3);
     }
     else if (shoot_control.shoot_mode == SHOOT_CONTINUE_BULLET)
     {
