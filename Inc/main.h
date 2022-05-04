@@ -29,7 +29,6 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -61,6 +60,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define BUTTON_TRIG_Pin GPIO_PIN_7
 #define BUTTON_TRIG_GPIO_Port GPIOI
+#define PUSH_TRIGGER_Pin GPIO_PIN_0
+#define PUSH_TRIGGER_GPIO_Port GPIOF
+#define TRIGGER_Pin GPIO_PIN_1
+#define TRIGGER_GPIO_Port GPIOF
 #define RSTN_IST8310_Pin GPIO_PIN_6
 #define RSTN_IST8310_GPIO_Port GPIOG
 #define LED_R_Pin GPIO_PIN_12
@@ -78,10 +81,6 @@ void Error_Handler(void);
 #define HW0_GPIO_Port GPIOC
 #define HW1_Pin GPIO_PIN_1
 #define HW1_GPIO_Port GPIOC
-#define PUSH_TRIGGER_Pin GPIO_PIN_0 //
-#define PUSH_TRIGGER_GPIO_Port GPIOC //
-#define TRIGGER_Pin GPIO_PIN_1  //
-#define TRIGGER_GPIO_Port GPIOC //
 #define HW2_Pin GPIO_PIN_2
 #define HW2_GPIO_Port GPIOC
 #define BUZZER_Pin GPIO_PIN_14
@@ -96,18 +95,21 @@ void Error_Handler(void);
 #define INT1_GYRO_Pin GPIO_PIN_5
 #define INT1_GYRO_GPIO_Port GPIOC
 #define INT1_GYRO_EXTI_IRQn EXTI9_5_IRQn
-#define DIR_YAW_Pin GPIO_PIN_12 //
-#define DIR_YAW_GPIO_Port GPIOB //
-#define DIR_PITCH_Pin GPIO_PIN_13 //
-#define DIR_PITCH_GPIO_Port GPIOB //
+#define DIR_YAW_Pin GPIO_PIN_12
+#define DIR_YAW_GPIO_Port GPIOB
+#define DIR_PITCH_Pin GPIO_PIN_13
+#define DIR_PITCH_GPIO_Port GPIOB
 #define CS1_GYRO_Pin GPIO_PIN_0
 #define CS1_GYRO_GPIO_Port GPIOB
+#define PUSH_IN1_Pin GPIO_PIN_14
+#define PUSH_IN1_GPIO_Port GPIOB
+#define PUSH_IN2_Pin GPIO_PIN_15
+#define PUSH_IN2_GPIO_Port GPIOB
+/* USER CODE BEGIN Private defines */
 #define PUSH_YAW_Pin GPIO_PIN_14 //
 #define PUSH_YAW_GPIO_Port GPIOB //
 #define PUSH_PITCH_Pin GPIO_PIN_15 //
 #define PUSH_PITCH_GPIO_Port GPIOB //
-/* USER CODE BEGIN Private defines */
-
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

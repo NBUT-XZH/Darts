@@ -25,7 +25,6 @@
 #include "can.h"
 #include "crc.h"
 #include "dma.h"
-#include "i2c.h"
 #include "rng.h"
 #include "rtc.h"
 #include "spi.h"
@@ -109,7 +108,6 @@ int main(void)
   MX_ADC3_Init();
   MX_CAN1_Init();
   MX_CAN2_Init();
-  MX_I2C1_Init();
   MX_SPI1_Init();
   MX_TIM4_Init();
   MX_TIM5_Init();
@@ -117,8 +115,6 @@ int main(void)
   MX_TIM8_Init();
   MX_CRC_Init();
   MX_RNG_Init();
-  MX_I2C2_Init();
-  MX_I2C3_Init();
   MX_RTC_Init();
   MX_TIM1_Init();
   MX_TIM3_Init();

@@ -82,6 +82,14 @@ static void shoot_bullet_control(void);
 shoot_control_t shoot_control; //射击数据
 
 /**
+  * @brief          拨弹步进电机
+  * @param[in]      void
+  * @retval         void
+  */
+
+static void shoot_stepping_control(void);
+
+/**
   * @brief          射击任务，初始化PID，遥控器指针，电机指针
   * @param[in]      void
   * @retval         返回空
@@ -113,6 +121,7 @@ void shoot_task(void const *pvParameters)
   */
 void shoot_init(void)
 {
+	shoot_control.step_time = 100;
     static const fp32 Trigger_speed_pid[3] = {TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD};
     static const fp32 Fric_speed_pid[3] = {FRIC_SPEED_PID_KP, FRIC_SPEED_PID_KI, FRIC_SPEED_PID_KD};
     static const fp32 Pull_speed_pid[3] = {PULL_ANGLE_PID_KP, PULL_ANGLE_PID_KI, PULL_ANGLE_PID_KD};
@@ -292,12 +301,11 @@ void shoot_set_control(void)
     else if (shoot_control.shoot_mode == SHOOT_BULLET)
     {
         //3508电机控制模式
-        shoot_control.trigger_motor_pid.max_out = TRIGGER_BULLET_PID_MAX_OUT;
-        shoot_control.trigger_motor_pid.max_iout = TRIGGER_BULLET_PID_MAX_IOUT;
-        shoot_bullet_control();
+        // shoot_control.trigger_motor_pid.max_out = TRIGGER_BULLET_PID_MAX_OUT;
+        // shoot_control.trigger_motor_pid.max_iout = TRIGGER_BULLET_PID_MAX_IOUT;
+        // shoot_bullet_control();
         //步进电机控制模式
-        HAL_GPIO_WritePin(PUSH_TRIGGER_GPIO_Port, TRIGGER_Pin, GPIO_PIN_RESET);
-        servo_speed_set(50, 3);
+        shoot_stepping_control();
     }
     else if (shoot_control.shoot_mode == SHOOT_CONTINUE_BULLET)
     {
@@ -483,3 +491,27 @@ static void shoot_bullet_control(void)
         shoot_control.shoot_mode = SHOOT_READY;
     }
 }
+
+static void shoot_stepping_control(void)
+{
+    if (shoot_control.move_flag == 0)
+        {
+            if(shoot_control.step_time > 0)
+            {
+             HAL_GPIO_WritePin(PUSH_TRIGGER_GPIO_Port, TRIGGER_Pin, GPIO_PIN_RESET);
+             servo_speed_set(5, 3);
+             shoot_control.step_time--;
+            }
+            else
+            {
+                shoot_control.move_flag = 1;
+            }
+        }
+    else
+        {
+            shoot_control.move_flag = 0;
+            shoot_control.step_time = 100;
+            shoot_control.shoot_mode = SHOOT_READY;
+        }
+}
+

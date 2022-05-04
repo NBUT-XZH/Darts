@@ -231,6 +231,7 @@ typedef struct
     uint16_t block_time;
     uint16_t reverse_time;
     bool_t move_flag;
+    uint8_t step_time;
 
     const motor_measure_t *motor_state[8];
  
