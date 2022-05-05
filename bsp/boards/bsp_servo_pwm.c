@@ -1,7 +1,11 @@
 #include "bsp_servo_pwm.h"
 #include "main.h"
 
-
+/**
+  * @brief          步进电机高低电平函数
+  * @param[in]      speed、i
+  * @retval         返回IO控制值
+  */
 void servo_speed_set(uint16_t speed, uint8_t i)
 {
     switch(i)
@@ -22,7 +26,6 @@ void servo_speed_set(uint16_t speed, uint8_t i)
         }break;
         case 3://拨弹步进
         {
-            //每次前进90度（每高低电平翻转一次前进0.9度）
             HAL_GPIO_WritePin(TRIGGER_GPIO_Port, TRIGGER_Pin, GPIO_PIN_SET);
             delay_ms(speed);
             HAL_GPIO_WritePin(TRIGGER_GPIO_Port, TRIGGER_Pin, GPIO_PIN_RESET);

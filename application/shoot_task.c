@@ -82,7 +82,7 @@ static void shoot_bullet_control(void);
 shoot_control_t shoot_control; //射击数据
 
 /**
-  * @brief          拨弹步进电机
+  * @brief         步进拨弹轮控制，每次循环100次（每次运行前进0.9度）
   * @param[in]      void
   * @retval         void
   */
@@ -304,6 +304,7 @@ void shoot_set_control(void)
         // shoot_control.trigger_motor_pid.max_out = TRIGGER_BULLET_PID_MAX_OUT;
         // shoot_control.trigger_motor_pid.max_iout = TRIGGER_BULLET_PID_MAX_IOUT;
         // shoot_bullet_control();
+        
         //步进电机控制模式
         shoot_stepping_control();
     }
@@ -352,7 +353,7 @@ void shoot_set_control(void)
         //            shoot_id1_17mm_speed_and_cooling_control(&shoot_control);
 
         if (shoot_control.shoot_mode == SHOOT_READY_BULLET || shoot_control.shoot_mode == SHOOT_CONTINUE_BULLET)
-            trigger_motor_turn_back(); //将设置的拨盘旋转角度,转化为速度,且防止卡弹
+        trigger_motor_turn_back(); //将设置的拨盘旋转角度,转化为速度,且防止卡弹
 
         //计算拨弹轮电机PID
         PID_calc(&shoot_control.trigger_motor_pid, shoot_control.trigger_speed, shoot_control.trigger_speed_set);
@@ -492,6 +493,11 @@ static void shoot_bullet_control(void)
     }
 }
 
+/**
+  * @brief          步进拨弹轮控制，每次循环100次（每次运行前进0.9度）
+  * @param[in]      void
+  * @retval         void
+  */
 static void shoot_stepping_control(void)
 {
     if (shoot_control.move_flag == 0)
