@@ -28,7 +28,7 @@
 
 #include "CAN_receive.h"
 #include "pid.h"
-
+#include "math.h"
 
 #define shoot_fric1_on(pwm) fric1_on((pwm)) //摩擦轮1pwm宏定义
 #define shoot_fric2_on(pwm) fric2_on((pwm)) //摩擦轮2pwm宏定义
@@ -265,7 +265,6 @@ static void shoot_feedback_update(void)
     {
         shoot_control.pull_ecd_count++;
     }
-
     if (shoot_control.pull_ecd_count == PULL_FULL_COUNT)
     {
         shoot_control.pull_ecd_count = -(PULL_FULL_COUNT - 1);
@@ -322,12 +321,12 @@ void shoot_set_control(void)
     else if (shoot_control.shoot_mode == SHOOT_READY_BULLET)
     {
         //设置拨弹轮的拨动速度,并开启堵转反转处理
-        shoot_control.trigger_speed_set = shoot_grigger_grade[1] * SHOOT_TRIGGER_DIRECTION;
+        shoot_control.trigger_speed_set = 0.0f;
         shoot_control.trigger_motor_pid.max_out = TRIGGER_READY_PID_MAX_OUT;
         shoot_control.trigger_motor_pid.max_iout = TRIGGER_READY_PID_MAX_IOUT;
 
         //设置推弹轮的拨动速度
-        shoot_control.pull_speed_set = shoot_grigger_grade[1] * SHOOT_TRIGGER_DIRECTION;
+        shoot_control.pull_speed_set = 0.0f;
         shoot_control.pull_motor_pid.max_out = PULL_READY_PID_MAX_OUT;
         shoot_control.pull_motor_pid.max_iout = PULL_READY_PID_MAX_IOUT;
 
@@ -564,74 +563,19 @@ static void shoot_stepping_control(void)
             else
             {
                 shoot_control.move_flag = 1;
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
+                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PI_FOUR);
             }
         }
     else
         { 
 
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) > 0.2f)
+            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) > 0.05f)
             {
                 //没到达一直设置旋转速度
-                shoot_control.pull_speed_set = shoot_grigger_grade[1] * SHOOT_TRIGGER_DIRECTION;
+                shoot_control.pull_speed_set = PULL_SPEED;
                 pull_motor_turn_back();
             }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle == 0)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 1;
-            }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle == 1)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 2;
-            }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle == 2)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 3;
-            }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle == 3)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 4;
-            }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle == 4)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 5;
-            }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle == 5)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 6;
-            }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle == 6)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 7;
-            }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle == 7)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 8;
-            }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle ==8)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 9;
-            }
-            if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle ==9)
-            {
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-                shoot_control.half_angle = 10;
-            }
-            // if (rad_format(shoot_control.pull_set_angle - shoot_control.pull_angle) <= 0.2f && shoot_control.half_angle ==10)
-            // {
-            //     shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
-            //     shoot_control.half_angle = 11;
-            // }
-            if (rad_format(shoot_control.half_angle == 10))
+            else
             {
                 shoot_control.move_flag = 0;
                 shoot_control.step_time = 100;

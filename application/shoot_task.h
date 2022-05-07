@@ -31,7 +31,7 @@
 #define TRIGGER_CW -1 //拨盘逆时针
 
 
-#define SHOOT_TRIGGER_DIRECTION TRIGGER_CW
+#define SHOOT_TRIGGER_DIRECTION TRIGGER_CCW
 
 //射击发射开关通道数据
 #define SHOOT_RC_MODE_CHANNEL       1
@@ -104,22 +104,22 @@
 #define TRIGGER_ANGLE_PID_KD        0.0f
 
 #define TRIGGER_BULLET_PID_MAX_OUT  10000.0f
-#define TRIGGER_BULLET_PID_MAX_IOUT 200.0f
+#define TRIGGER_BULLET_PID_MAX_IOUT 9000.0f
 
 #define TRIGGER_READY_PID_MAX_OUT   10000.0f
-#define TRIGGER_READY_PID_MAX_IOUT  200.0f
+#define TRIGGER_READY_PID_MAX_IOUT  7000.0f
 
 
 //推弹轮电机PID
-#define PULL_ANGLE_PID_KP        1000.0f  //800
-#define PULL_ANGLE_PID_KI        0.0f  //0.5
+#define PULL_ANGLE_PID_KP        700.0f  //800
+#define PULL_ANGLE_PID_KI        0.5f  //0.5
 #define PULL_ANGLE_PID_KD        0.0f
 
 #define PULL_BULLET_PID_MAX_OUT  10000.0f
-#define PULL_BULLET_PID_MAX_IOUT 200.0f
+#define PULL_BULLET_PID_MAX_IOUT 9000.0f
 
 #define PULL_READY_PID_MAX_OUT   10000.0f
-#define PULL_READY_PID_MAX_IOUT  200.0f
+#define PULL_READY_PID_MAX_IOUT  7000.0f
 
 
 //摩擦轮电机rmp 变化成 旋转速度的比例
@@ -143,11 +143,11 @@
 
 
 //拨盘格数
-#define TRIGGER_GRID_NUM 8    
-#define TRIGGER_ONCE 2*PI/TRIGGER_GRID_NUM
+#define TRIGGER_GRID_NUM 8.0f    
+#define TRIGGER_ONCE 2.0*PI/TRIGGER_GRID_NUM
 
 #define PULL_GRID_NUM 4.0f    
-#define PULL_ONCE 2.0f*PI/PULL_GRID_NUM
+#define PULL_ONCE 2.0*PI/PULL_GRID_NUM
 
 
 #define L1 0
