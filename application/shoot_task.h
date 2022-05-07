@@ -47,7 +47,7 @@
 #define SHOOT_KEYBOARD           KEY_PRESSED_OFFSET_G
 
 //射击完成后 子弹弹出去后，判断时间，以防误触发
-#define SHOOT_DONE_KEY_OFF_TIME     15
+#define SHOOT_DONE_KEY_OFF_TIME     150
 //鼠标长按判断
 #define PRESS_LONG_TIME             400
 //摩擦轮开启按键延时
@@ -87,10 +87,10 @@
 #define READY_PULL_SPEED         5.0f * SHOOT_TRIGGER_DIRECTION //5
 
 
-//拨弹卡弹时间 以及反转时间
-#define BLOCK_TRIGGER_SPEED         1.0f
-#define BLOCK_TIME                  7000
-#define REVERSE_TIME                5000
+//推弹卡弹时间 以及反转时间
+#define BLOCK_PULL_SPEED            1.0f
+#define BLOCK_TIME                  1000
+#define REVERSE_TIME                700
 #define REVERSE_SPEED_LIMIT         13.0f
 
 #define PI_FOUR                     0.78539816339744830961566084581988f
@@ -99,7 +99,7 @@
 
 
 //拨弹轮电机PID
-#define TRIGGER_ANGLE_PID_KP        5900.0f  //800
+#define TRIGGER_ANGLE_PID_KP        1000.0f  //800
 #define TRIGGER_ANGLE_PID_KI        0.0f  //0.5
 #define TRIGGER_ANGLE_PID_KD        0.0f
 
@@ -111,7 +111,7 @@
 
 
 //推弹轮电机PID
-#define PULL_ANGLE_PID_KP        1.0f  //800
+#define PULL_ANGLE_PID_KP        1000.0f  //800
 #define PULL_ANGLE_PID_KI        0.0f  //0.5
 #define PULL_ANGLE_PID_KD        0.0f
 
@@ -145,6 +145,9 @@
 //拨盘格数
 #define TRIGGER_GRID_NUM 8    
 #define TRIGGER_ONCE 2*PI/TRIGGER_GRID_NUM
+
+#define PULL_GRID_NUM 4.0f    
+#define PULL_ONCE 2.0f*PI/PULL_GRID_NUM
 
 
 #define L1 0
@@ -232,6 +235,7 @@ typedef struct
     uint16_t reverse_time;
     bool_t move_flag;
     uint8_t step_time;
+    uint8_t half_angle;
 
     const motor_measure_t *motor_state[8];
  
