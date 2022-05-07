@@ -63,7 +63,7 @@ static void shoot_feedback_update(void);
   * @param[in]      void
   * @retval         void
   */
-static void pull_motor_turn_back(void);
+static void trigger_motor_turn_back(void);
 
 /**
   * @brief          推弹电机堵转倒转处理
@@ -121,7 +121,6 @@ void shoot_task(void const *pvParameters)
   */
 void shoot_init(void)
 {
-    shoot_control.half_angle = 0;
 	shoot_control.step_time = 100;
     static const fp32 Trigger_speed_pid[3] = {TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD};
     static const fp32 Fric_speed_pid[3] = {FRIC_SPEED_PID_KP, FRIC_SPEED_PID_KI, FRIC_SPEED_PID_KD};
@@ -194,18 +193,10 @@ void shoot_init(void)
     shoot_control.trigger_ecd_count = 0;
     shoot_control.trigger_angle = shoot_control.trigger_motor_measure->ecd * MOTOR_ECD_TO_ANGLE;
     shoot_control.trigger_given_current = 0;
+    shoot_control.move_flag = 0;
     shoot_control.trigger_set_angle = shoot_control.trigger_angle;
     shoot_control.trigger_speed = 0.0f;
     shoot_control.trigger_speed_set = 0.0f;
-
-    shoot_control.pull_ecd_count = 0;
-    shoot_control.pull_angle = shoot_control.pull_motor_measure->ecd * PULL_MOTOR_ECD_TO_ANGLE;
-    shoot_control.pull_given_current = 0;
-    shoot_control.pull_set_angle = shoot_control.pull_angle;
-    shoot_control.pull_speed = 0.0f;
-    shoot_control.pull_speed_set = 0.0f;
-
-    shoot_control.move_flag = 0;
 }
 /**
   * @brief          射击数据更新
@@ -228,14 +219,14 @@ static void shoot_feedback_update(void)
     static fp32 speed_fliter_2 = 0.0f;
     static fp32 speed_fliter_3 = 0.0f;
 
-    //推弹电机速度滤波一下
+    //拨弹轮电机速度滤波一下
     static const fp32 fliter_num[3] = {1.725709860247969f, -0.75594777109163436f, 0.030237910843665373f};
 
     //二阶低通滤波
     speed_fliter_1 = speed_fliter_2;
     speed_fliter_2 = speed_fliter_3;
-    speed_fliter_3 = speed_fliter_2 * fliter_num[0] + speed_fliter_1 * fliter_num[1] + (shoot_control.pull_motor_measure->speed_rpm *PULL_MOTOR_RPM_TO_SPEED) * fliter_num[2];
-    shoot_control.pull_speed = speed_fliter_3;
+    speed_fliter_3 = speed_fliter_2 * fliter_num[0] + speed_fliter_1 * fliter_num[1] + (shoot_control.trigger_motor_measure->speed_rpm * MOTOR_RPM_TO_SPEED) * fliter_num[2];
+    shoot_control.trigger_speed = speed_fliter_3;
 
     //电机圈数重置， 因为输出轴旋转一圈， 电机轴旋转 36圈，将电机轴数据处理成输出轴数据，用于控制输出轴角度
     if (shoot_control.trigger_motor_measure->ecd - shoot_control.trigger_motor_measure->last_ecd > HALF_ECD_RANGE)
@@ -256,6 +247,7 @@ static void shoot_feedback_update(void)
          shoot_control.trigger_ecd_count = FULL_COUNT - 1;
     }
 
+<<<<<<< HEAD
     //电机圈数重置， 因为输出轴旋转一圈， 电机轴旋转 36圈，将电机轴数据处理成输出轴数据，用于控制输出轴角度
     if (shoot_control.pull_motor_measure->ecd - shoot_control.pull_motor_measure->last_ecd > HALF_ECD_RANGE)
     {
@@ -274,9 +266,10 @@ static void shoot_feedback_update(void)
          shoot_control.pull_ecd_count = PULL_FULL_COUNT - 1;
     }
 
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
     //计算输出轴角度
-    shoot_control.trigger_angle = ( shoot_control.trigger_ecd_count * ECD_RANGE + shoot_control.trigger_motor_measure->ecd) * PULL_MOTOR_ECD_TO_ANGLE;
-    shoot_control.pull_angle = ( shoot_control.pull_ecd_count * ECD_RANGE + shoot_control.pull_motor_measure->ecd) * PULL_MOTOR_ECD_TO_ANGLE;
+    shoot_control.trigger_angle = ( shoot_control.trigger_ecd_count * ECD_RANGE + shoot_control.trigger_motor_measure->ecd) * MOTOR_ECD_TO_ANGLE;
 
     //鼠标按键
     shoot_control.last_press_l = shoot_control.press_l;
@@ -308,15 +301,11 @@ void shoot_set_control(void)
     {
         //设置拨弹轮的速度
         shoot_control.trigger_speed_set = 0.0f;
-        //设置推弹速度
-        shoot_control.pull_speed_set = 0.0f;
     }
     else if (shoot_control.shoot_mode == SHOOT_READY_FRIC)
     {
         //设置拨弹轮的速度
         shoot_control.trigger_speed_set = 0.0f;
-        //设置推弹速度
-        shoot_control.pull_speed_set = 0.0f;
     }
     else if (shoot_control.shoot_mode == SHOOT_READY_BULLET)
     {
@@ -324,19 +313,20 @@ void shoot_set_control(void)
         shoot_control.trigger_speed_set = 0.0f;
         shoot_control.trigger_motor_pid.max_out = TRIGGER_READY_PID_MAX_OUT;
         shoot_control.trigger_motor_pid.max_iout = TRIGGER_READY_PID_MAX_IOUT;
+<<<<<<< HEAD
 
         //设置推弹轮的拨动速度
         shoot_control.pull_speed_set = 0.0f;
         shoot_control.pull_motor_pid.max_out = PULL_READY_PID_MAX_OUT;
         shoot_control.pull_motor_pid.max_iout = PULL_READY_PID_MAX_IOUT;
 
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
     }
     else if (shoot_control.shoot_mode == SHOOT_READY)
     {
         //设置拨弹轮的速度
         shoot_control.trigger_speed_set = 0.0f;
-        //设置推弹速度
-        shoot_control.pull_speed_set = 0.0f;
     }
     else if (shoot_control.shoot_mode == SHOOT_BULLET)
     {
@@ -344,9 +334,7 @@ void shoot_set_control(void)
         // shoot_control.trigger_motor_pid.max_out = TRIGGER_BULLET_PID_MAX_OUT;
         // shoot_control.trigger_motor_pid.max_iout = TRIGGER_BULLET_PID_MAX_IOUT;
         // shoot_bullet_control();
-
-        shoot_control.pull_motor_pid.max_out  = PULL_BULLET_PID_MAX_OUT;
-        shoot_control.pull_motor_pid.max_iout = PULL_BULLET_PID_MAX_IOUT;
+        
         //步进电机控制模式
         shoot_stepping_control();
     }
@@ -358,7 +346,6 @@ void shoot_set_control(void)
     else if (shoot_control.shoot_mode == SHOOT_DONE)
     {
         shoot_control.trigger_speed_set = 0.0f;
-        shoot_control.pull_speed_set = 0.0f;
     }
 
     if (shoot_control.shoot_mode == SHOOT_STOP)
@@ -366,38 +353,22 @@ void shoot_set_control(void)
         shoot_laser_off();
         shoot_control.pull_given_current = 0;
         shoot_control.trigger_given_current = 0;
-        shoot_control.fric_motor[L1].speed_set = 0.0f;
-        shoot_control.fric_motor[R1].speed_set = 0.0f;
+        shoot_control.fric_motor[L1].give_current = 0.0f;
+        shoot_control.fric_motor[R1].give_current = 0.0f;
 
-        shoot_control.fric_motor[L2].speed_set = 0.0f;
-        shoot_control.fric_motor[R2].speed_set = 0.0f;
+        shoot_control.fric_motor[L2].give_current = 0.0f;
+        shoot_control.fric_motor[R2].give_current = 0.0f;
 
-        shoot_control.fric_motor[L3].speed_set = 0.0f;
-        shoot_control.fric_motor[R3].speed_set = 0.0f;
+        shoot_control.fric_motor[L3].give_current = 0.0f;
+        shoot_control.fric_motor[R3].give_current = 0.0f;
         shoot_control.fric_status = FALSE;
-
-        PID_calc(&shoot_control.fric_speed_pid[L1], shoot_control.fric_motor[L1].speed, shoot_control.fric_motor[L1].speed_set);
-        PID_calc(&shoot_control.fric_speed_pid[R1], shoot_control.fric_motor[R1].speed, shoot_control.fric_motor[R1].speed_set);
-
-        PID_calc(&shoot_control.fric_speed_pid[L2], shoot_control.fric_motor[L2].speed, shoot_control.fric_motor[L2].speed_set);
-        PID_calc(&shoot_control.fric_speed_pid[R2], shoot_control.fric_motor[R2].speed, shoot_control.fric_motor[R2].speed_set);
-
-        PID_calc(&shoot_control.fric_speed_pid[L3], shoot_control.fric_motor[L3].speed, shoot_control.fric_motor[L3].speed_set);
-        PID_calc(&shoot_control.fric_speed_pid[R3], shoot_control.fric_motor[R3].speed, shoot_control.fric_motor[R3].speed_set);
-        
-        shoot_control.fric_motor[L1].give_current = shoot_control.fric_speed_pid[L1].out;
-        shoot_control.fric_motor[R1].give_current = shoot_control.fric_speed_pid[R1].out;
-
-        shoot_control.fric_motor[L2].give_current = shoot_control.fric_speed_pid[L2].out;
-        shoot_control.fric_motor[R2].give_current = shoot_control.fric_speed_pid[R2].out;
-
-        shoot_control.fric_motor[L3].give_current = shoot_control.fric_speed_pid[L3].out;
-        shoot_control.fric_motor[R3].give_current = shoot_control.fric_speed_pid[R3].out;
     }
     else
     {
         shoot_laser_on(); //激光开启
 
+        //推弹电机转速赋值
+        shoot_control.pull_speed_set = shoot_control.shoot_rc->rc.ch[1] * 5;
         //设置摩擦轮转速
         shoot_control.fric_motor[L1].speed_set = shoot_fric_grade[3];
         shoot_control.fric_motor[R1].speed_set = -shoot_fric_grade[3];
@@ -412,7 +383,7 @@ void shoot_set_control(void)
         //            shoot_id1_17mm_speed_and_cooling_control(&shoot_control);
 
         if (shoot_control.shoot_mode == SHOOT_READY_BULLET || shoot_control.shoot_mode == SHOOT_CONTINUE_BULLET)
-        pull_motor_turn_back(); //将设置的拨盘旋转角度,转化为速度,且防止卡弹
+        trigger_motor_turn_back(); //将设置的拨盘旋转角度,转化为速度,且防止卡弹
 
         //计算拨弹轮电机PID
         PID_calc(&shoot_control.trigger_motor_pid, shoot_control.trigger_speed, shoot_control.trigger_speed_set);
@@ -425,14 +396,14 @@ void shoot_set_control(void)
 
         PID_calc(&shoot_control.fric_speed_pid[L3], shoot_control.fric_motor[L3].speed, shoot_control.fric_motor[L3].speed_set);
         PID_calc(&shoot_control.fric_speed_pid[R3], shoot_control.fric_motor[R3].speed, shoot_control.fric_motor[R3].speed_set);
+        
         //计算推弹电机PID
         PID_calc(&shoot_control.pull_motor_pid, shoot_control.pull_speed, shoot_control.pull_speed_set);
 
-        //确保摩擦轮未达到最低转速不会转动拨盘和推弹
+        //确保摩擦轮未达到最低转速不会转动拨盘
         if (shoot_control.shoot_mode < SHOOT_READY_BULLET)
         {
             shoot_control.trigger_given_current = 0;
-            shoot_control.pull_given_current = 0;
         }
 
         //设置发送电流
@@ -497,18 +468,18 @@ static void shoot_set_mode(void)
     }
 }
 
-static void pull_motor_turn_back(void)
+static void trigger_motor_turn_back(void)
 {
     if (shoot_control.block_time < BLOCK_TIME)
     {
-        shoot_control.pull_speed_set = shoot_control.pull_speed_set;
+        shoot_control.trigger_speed_set = shoot_control.trigger_speed_set;
     }
     else
     {
-        shoot_control.pull_speed_set = -shoot_control.pull_speed_set;
+        shoot_control.trigger_speed_set = -shoot_control.trigger_speed_set;
     }
 
-    if (fabs( shoot_control.pull_speed) < BLOCK_PULL_SPEED && shoot_control.block_time < BLOCK_TIME)
+    if (fabs( shoot_control.trigger_speed) < BLOCK_TRIGGER_SPEED && shoot_control.block_time < BLOCK_TIME)
     {
         shoot_control.block_time++;
         shoot_control.reverse_time = 0;
@@ -537,6 +508,13 @@ static void shoot_bullet_control(void)
         shoot_control.trigger_set_angle = rad_format(shoot_control.trigger_angle + TRIGGER_ONCE);
         shoot_control.move_flag = 1;
     }
+    //到达角度判断
+    if (rad_format(shoot_control.trigger_set_angle - shoot_control.trigger_angle) > 0.05f)
+    {
+        //没到达一直设置旋转速度
+        shoot_control.trigger_speed_set = shoot_grigger_grade[1] * SHOOT_TRIGGER_DIRECTION;
+        trigger_motor_turn_back();
+    }
     else
     {
         //TODO:这里需要添加推杆控制
@@ -549,7 +527,7 @@ static void shoot_bullet_control(void)
   * @brief          步进拨弹轮控制，每次循环100次（每次运行前进0.9度）
   * @param[in]      void
   * @retval         void
-*/
+  */
 static void shoot_stepping_control(void)
 {
     if (shoot_control.move_flag == 0)
@@ -563,6 +541,7 @@ static void shoot_stepping_control(void)
             else
             {
                 shoot_control.move_flag = 1;
+<<<<<<< HEAD
                 shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PI_FOUR);
             }
         }
@@ -582,6 +561,15 @@ static void shoot_stepping_control(void)
                 shoot_control.half_angle = 0;
                 shoot_control.shoot_mode = SHOOT_READY;
             }
+=======
+            }
+        }
+    else
+        {
+            shoot_control.move_flag = 0;
+            shoot_control.step_time = 100;
+            shoot_control.shoot_mode = SHOOT_READY;
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
         }
 }
 
