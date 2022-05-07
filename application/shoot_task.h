@@ -87,10 +87,10 @@
 #define READY_PULL_SPEED         5.0f * SHOOT_TRIGGER_DIRECTION //5
 
 
-//拨弹卡弹时间 以及反转时间
-#define BLOCK_TRIGGER_SPEED         1.0f
-#define BLOCK_TIME                  7000
-#define REVERSE_TIME                5000
+//推弹卡弹时间 以及反转时间
+#define BLOCK_PULL_SPEED            1.0f
+#define BLOCK_TIME                  1000
+#define REVERSE_TIME                700
 #define REVERSE_SPEED_LIMIT         13.0f
 
 #define PI_FOUR                     0.78539816339744830961566084581988f
@@ -111,16 +111,9 @@
 
 
 //推弹轮电机PID
-<<<<<<< HEAD
-<<<<<<< HEAD
-#define PULL_ANGLE_PID_KP        700.0f  //800
-#define PULL_ANGLE_PID_KI        0.5f  //0.5
-=======
-=======
->>>>>>> parent of dac683e (拨弹轮换弹自动完成)
-#define PULL_ANGLE_PID_KP        1.0f  //800
-#define PULL_ANGLE_PID_KI        0.0f  //0.5
->>>>>>> parent of dac683e (拨弹轮换弹自动完成)
+
+#define PULL_ANGLE_PID_KP        1000.0f  //800
+#define PULL_ANGLE_PID_KI        0.2f  //0.5
 #define PULL_ANGLE_PID_KD        0.0f
 
 #define PULL_BULLET_PID_MAX_OUT  10000.0f
@@ -154,15 +147,8 @@
 #define TRIGGER_GRID_NUM 8.0f    
 #define TRIGGER_ONCE 2.0*PI/TRIGGER_GRID_NUM
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 #define PULL_GRID_NUM 4.0f    
 #define PULL_ONCE 2.0*PI/PULL_GRID_NUM
-
-=======
->>>>>>> parent of dac683e (拨弹轮换弹自动完成)
-=======
->>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 
 #define L1 0
 #define L2 1
@@ -249,6 +235,7 @@ typedef struct
     uint16_t reverse_time;
     bool_t move_flag;
     uint8_t step_time;
+    uint8_t half_angle;
 
     const motor_measure_t *motor_state[8];
  
