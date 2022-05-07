@@ -248,6 +248,7 @@ static void shoot_feedback_update(void)
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     //电机圈数重置， 因为输出轴旋转一圈， 电机轴旋转 36圈，将电机轴数据处理成输出轴数据，用于控制输出轴角度
     if (shoot_control.pull_motor_measure->ecd - shoot_control.pull_motor_measure->last_ecd > HALF_ECD_RANGE)
     {
@@ -266,6 +267,8 @@ static void shoot_feedback_update(void)
          shoot_control.pull_ecd_count = PULL_FULL_COUNT - 1;
     }
 
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
     //计算输出轴角度
@@ -314,12 +317,15 @@ void shoot_set_control(void)
         shoot_control.trigger_motor_pid.max_out = TRIGGER_READY_PID_MAX_OUT;
         shoot_control.trigger_motor_pid.max_iout = TRIGGER_READY_PID_MAX_IOUT;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         //设置推弹轮的拨动速度
         shoot_control.pull_speed_set = 0.0f;
         shoot_control.pull_motor_pid.max_out = PULL_READY_PID_MAX_OUT;
         shoot_control.pull_motor_pid.max_iout = PULL_READY_PID_MAX_IOUT;
 
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
     }
@@ -542,6 +548,7 @@ static void shoot_stepping_control(void)
             {
                 shoot_control.move_flag = 1;
 <<<<<<< HEAD
+<<<<<<< HEAD
                 shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PI_FOUR);
             }
         }
@@ -565,10 +572,18 @@ static void shoot_stepping_control(void)
             }
         }
     else
+=======
+            }
+        }
+    else
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
         {
             shoot_control.move_flag = 0;
             shoot_control.step_time = 100;
             shoot_control.shoot_mode = SHOOT_READY;
+<<<<<<< HEAD
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
+=======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
         }
 }

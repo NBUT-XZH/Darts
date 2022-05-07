@@ -4,7 +4,11 @@
 <body><HR>
 <H1>Static Call Graph for image DARTS\DARTS.axf</H1><HR>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sat May 07 20:29:55 2022
+=======
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed May 04 20:37:55 2022
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 <BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed May 04 20:37:55 2022
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
@@ -2735,8 +2739,13 @@ Global Symbols
 </UL>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <P><STRONG><a name="[1c1]"></a>shoot_init</STRONG> (Thumb, 496 bytes, Stack size 24 bytes, shoot_task.o(i.shoot_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = shoot_init &rArr; shoot_feedback_update
+=======
+<P><STRONG><a name="[1c1]"></a>shoot_init</STRONG> (Thumb, 414 bytes, Stack size 24 bytes, shoot_task.o(i.shoot_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = shoot_init
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 <P><STRONG><a name="[1c1]"></a>shoot_init</STRONG> (Thumb, 414 bytes, Stack size 24 bytes, shoot_task.o(i.shoot_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = shoot_init
@@ -2751,8 +2760,13 @@ Global Symbols
 </UL>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <P><STRONG><a name="[1c5]"></a>shoot_set_control</STRONG> (Thumb, 700 bytes, Stack size 48 bytes, shoot_task.o(i.shoot_set_control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = shoot_set_control &rArr; shoot_stepping_control &rArr; servo_speed_set &rArr; delay_us
+=======
+<P><STRONG><a name="[1c5]"></a>shoot_set_control</STRONG> (Thumb, 482 bytes, Stack size 16 bytes, shoot_task.o(i.shoot_set_control))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = shoot_set_control &rArr; shoot_stepping_control &rArr; servo_speed_set &rArr; delay_us
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 <P><STRONG><a name="[1c5]"></a>shoot_set_control</STRONG> (Thumb, 482 bytes, Stack size 16 bytes, shoot_task.o(i.shoot_set_control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = shoot_set_control &rArr; shoot_stepping_control &rArr; servo_speed_set &rArr; delay_us
@@ -2769,7 +2783,11 @@ Global Symbols
 
 <P><STRONG><a name="[7f]"></a>shoot_task</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, shoot_task.o(i.shoot_task))
 <<<<<<< HEAD
+<<<<<<< HEAD
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = shoot_task &rArr; shoot_set_control &rArr; shoot_stepping_control &rArr; servo_speed_set &rArr; delay_us
+=======
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = shoot_task &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = shoot_task &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
@@ -2803,7 +2821,17 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[196]"></a>uxListRemove</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, list.o(i.uxListRemove))
+<<<<<<< HEAD
 <BR><BR>[Called By]<UL><LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskRemoveFromEventList
+=======
+<BR><BR>[Called By]<UL><LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvSwitchTimerLists
+<LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvProcessTimerOrBlockTask
+<LI><a href="#[1ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvProcessReceivedCommands
+<LI><a href="#[1d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIdleTask
+<LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddCurrentTaskToDelayedList
+<LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskRemoveFromEventList
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskPriorityDisinherit
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 <LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvSwitchTimerLists
@@ -2840,6 +2868,7 @@ Global Symbols
 <LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvInsertTimerInActiveList
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddCurrentTaskToDelayedList
 <<<<<<< HEAD
+<<<<<<< HEAD
 </UL>
 
 <P><STRONG><a name="[197]"></a>vListInsertEnd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, list.o(i.vListInsertEnd))
@@ -2849,6 +2878,12 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[197]"></a>vListInsertEnd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, list.o(i.vListInsertEnd))
+=======
+<LI><a href="#[1cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventList
+</UL>
+
+<P><STRONG><a name="[197]"></a>vListInsertEnd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, list.o(i.vListInsertEnd))
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <BR><BR>[Called By]<UL><LI><a href="#[1d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
 <LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
 <LI><a href="#[195]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddCurrentTaskToDelayedList
@@ -2870,6 +2905,9 @@ Global Symbols
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIdleTask
 <LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCheckForTimeOut
+<<<<<<< HEAD
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
+=======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[1d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
@@ -2891,6 +2929,9 @@ Global Symbols
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIdleTask
 <LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCheckForTimeOut
+<<<<<<< HEAD
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
+=======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[1d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
@@ -3007,6 +3048,9 @@ Global Symbols
 <LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 <LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[1d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
+<<<<<<< HEAD
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
+=======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <LI><a href="#[1a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortFree
 <LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortMalloc
@@ -3059,16 +3103,22 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = xQueueGenericSend &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <BR>[Calls]<UL><LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskRemoveFromEventList
 <LI><a href="#[1da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCheckForTimeOut
 <LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventList
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskInternalSetTimeOutState
 =======
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <BR>[Calls]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetSchedulerState
 <LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskRemoveFromEventList
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCheckForTimeOut
 <LI><a href="#[1cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventList
 <LI><a href="#[1d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskInternalSetTimeOutState
+<<<<<<< HEAD
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
+=======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvUnlockQueue
 <LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCopyDataToQueue
@@ -3095,16 +3145,22 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = xQueueReceive &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <BR>[Calls]<UL><LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskRemoveFromEventList
 <LI><a href="#[1da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCheckForTimeOut
 <LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventList
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskInternalSetTimeOutState
 =======
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <BR>[Calls]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetSchedulerState
 <LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskRemoveFromEventList
 <LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCheckForTimeOut
 <LI><a href="#[1cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventList
 <LI><a href="#[1d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskInternalSetTimeOutState
+<<<<<<< HEAD
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
+=======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvUnlockQueue
 <LI><a href="#[1ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueEmpty
@@ -3164,6 +3220,9 @@ Global Symbols
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 <LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[1d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
+<<<<<<< HEAD
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
+=======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 </UL>
 
@@ -3175,8 +3234,11 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = xTaskIncrementTick
 </UL>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <BR>[Calls]<UL><LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vListInsertEnd
 =======
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <BR>[Calls]<UL><LI><a href="#[1db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvResetNextTaskUnblockTime
 <LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vListInsertEnd
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
@@ -3213,8 +3275,11 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <BR>[Calls]<UL><LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vListInsertEnd
 =======
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <BR>[Calls]<UL><LI><a href="#[1d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
 <LI><a href="#[1db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvResetNextTaskUnblockTime
 <LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vListInsertEnd
@@ -3233,6 +3298,9 @@ Global Symbols
 <LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 <LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[1d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
+<<<<<<< HEAD
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
+=======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <LI><a href="#[1a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortFree
 <LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortMalloc
@@ -3255,9 +3323,15 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = xTimerGenericCommand &rArr; xQueueGenericSend &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <BR>[Calls]<UL><LI><a href="#[1db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSendFromISR
 <LI><a href="#[1d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 <LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetSchedulerState
+=======
+<BR>[Calls]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetSchedulerState
+<LI><a href="#[1da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSendFromISR
+<LI><a href="#[1d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 <BR>[Calls]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetSchedulerState
 <LI><a href="#[1da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSendFromISR
@@ -3450,9 +3524,15 @@ Local Symbols
 <LI><a href="#[196]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxListRemove
 </UL>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <BR>[Called By]<UL><LI><a href="#[1cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventListRestricted
 <LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventList
 <LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
+=======
+<BR>[Called By]<UL><LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
+<LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventListRestricted
+<LI><a href="#[1cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventList
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 <BR>[Called By]<UL><LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 <LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventListRestricted
@@ -3503,10 +3583,13 @@ Local Symbols
 </UL>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <P><STRONG><a name="[1dc]"></a>prvResetNextTaskUnblockTime</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, tasks.o(i.prvResetNextTaskUnblockTime))
 <BR><BR>[Called By]<UL><LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 <LI><a href="#[1d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
 =======
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 <P><STRONG><a name="[1db]"></a>prvResetNextTaskUnblockTime</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, tasks.o(i.prvResetNextTaskUnblockTime))
 <BR><BR>[Called By]<UL><LI><a href="#[1d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
@@ -3709,7 +3792,11 @@ Local Symbols
 </UL>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <P><STRONG><a name="[1c6]"></a>shoot_stepping_control</STRONG> (Thumb, 144 bytes, Stack size 8 bytes, shoot_task.o(i.shoot_stepping_control))
+=======
+<P><STRONG><a name="[1c6]"></a>shoot_stepping_control</STRONG> (Thumb, 72 bytes, Stack size 8 bytes, shoot_task.o(i.shoot_stepping_control))
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 <P><STRONG><a name="[1c6]"></a>shoot_stepping_control</STRONG> (Thumb, 72 bytes, Stack size 8 bytes, shoot_task.o(i.shoot_stepping_control))
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)

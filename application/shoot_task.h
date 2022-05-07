@@ -112,9 +112,12 @@
 
 //推弹轮电机PID
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define PULL_ANGLE_PID_KP        700.0f  //800
 #define PULL_ANGLE_PID_KI        0.5f  //0.5
 =======
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 #define PULL_ANGLE_PID_KP        1.0f  //800
 #define PULL_ANGLE_PID_KI        0.0f  //0.5
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
@@ -152,9 +155,12 @@
 #define TRIGGER_ONCE 2.0*PI/TRIGGER_GRID_NUM
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define PULL_GRID_NUM 4.0f    
 #define PULL_ONCE 2.0*PI/PULL_GRID_NUM
 
+=======
+>>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 =======
 >>>>>>> parent of dac683e (拨弹轮换弹自动完成)
 
