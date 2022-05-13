@@ -121,6 +121,7 @@ void shoot_task(void const *pvParameters)
   */
 void shoot_init(void)
 {
+    laser_on();
 	shoot_control.step_time = 100;
     static const fp32 Trigger_speed_pid[3] = {TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD};
     static const fp32 Fric_speed_pid[3] = {FRIC_SPEED_PID_KP, FRIC_SPEED_PID_KI, FRIC_SPEED_PID_KD};
@@ -395,7 +396,6 @@ void shoot_set_control(void)
     }
     else
     {
-        shoot_laser_on(); //激光开启
 
         //设置摩擦轮转速
         shoot_control.fric_motor[L1].speed_set = shoot_fric_grade[3];
