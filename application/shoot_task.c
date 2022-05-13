@@ -363,7 +363,6 @@ void shoot_set_control(void)
 
     if (shoot_control.shoot_mode == SHOOT_STOP)
     {
-        shoot_laser_off();
         shoot_control.pull_given_current = 0;
         shoot_control.trigger_given_current = 0;
         shoot_control.fric_motor[L1].speed_set = 0.0f;
