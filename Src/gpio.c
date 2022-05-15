@@ -30,9 +30,12 @@
 
 /* USER CODE END 1 */
 
-/** Configure pins
-     PB8   ------> I2C1_SCL
-     PB9   ------> I2C1_SDA
+/** Configure pins as
+        * Analog
+        * Input
+        * Output
+        * EVENT_OUT
+        * EXTI
      PC9   ------> I2C3_SDA
      PA8   ------> I2C3_SCL
 */
@@ -53,6 +56,10 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOE_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, DIR_TRIGGER_Pin|TRIGGER_PUL_Pin|DIR_YAW_Pin|DIR_PITCH_Pin
+                          |CS1_GYRO_Pin|PUSH_IN1_Pin|PUSH_IN2_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOF, PUSH_TRIGGER_Pin|TRIGGER_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
@@ -61,17 +68,21 @@ void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(CS1_ACCEL_GPIO_Port, CS1_ACCEL_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, DIR_YAW_Pin|DIR_PITCH_Pin|CS1_GYRO_Pin|PUSH_IN1_Pin
-                          |PUSH_IN2_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pins : PB8 PB9 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+  /*Configure GPIO pins : PBPin PBPin PBPin PBPin
+                           PBPin */
+  GPIO_InitStruct.Pin = DIR_TRIGGER_Pin|DIR_YAW_Pin|DIR_PITCH_Pin|PUSH_IN1_Pin
+                          |PUSH_IN2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = TRIGGER_PUL_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(TRIGGER_PUL_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
   GPIO_InitStruct.Pin = BUTTON_TRIG_Pin;
@@ -139,13 +150,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PBPin PBPin PBPin PBPin */
-  GPIO_InitStruct.Pin = DIR_YAW_Pin|DIR_PITCH_Pin|PUSH_IN1_Pin|PUSH_IN2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
   GPIO_InitStruct.Pin = CS1_GYRO_Pin;
