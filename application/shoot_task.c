@@ -397,14 +397,14 @@ void shoot_set_control(void)
     {
 
         //设置摩擦轮转速
-        shoot_control.fric_motor[L1].speed_set = shoot_fric_grade[3];
-        shoot_control.fric_motor[R1].speed_set = -shoot_fric_grade[3];
+        shoot_control.fric_motor[L1].speed_set = shoot_fric_grade[1];
+        shoot_control.fric_motor[R1].speed_set = -shoot_fric_grade[1];
 
-        shoot_control.fric_motor[L2].speed_set = shoot_fric_grade[3];
-        shoot_control.fric_motor[R2].speed_set = -shoot_fric_grade[3];
+        shoot_control.fric_motor[L2].speed_set = shoot_fric_grade[1];
+        shoot_control.fric_motor[R2].speed_set = -shoot_fric_grade[1];
 
-        shoot_control.fric_motor[L3].speed_set = shoot_fric_grade[3];
-        shoot_control.fric_motor[R3].speed_set = -shoot_fric_grade[3];
+        shoot_control.fric_motor[L3].speed_set = shoot_fric_grade[1];
+        shoot_control.fric_motor[R3].speed_set = -shoot_fric_grade[1];
         //        //连发模式 控制17mm发射机构射速和热量控制
         //        if(shoot_control.shoot_mode == SHOOT_CONTINUE_BULLET)
         //            shoot_id1_17mm_speed_and_cooling_control(&shoot_control);
