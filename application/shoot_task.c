@@ -569,21 +569,22 @@ static void shoot_stepping_control(void)
             }
             if(shoot_control.step_time <= 0 && shoot_control.trigger_time > 0)
             {
-                HAL_GPIO_WritePin(PUSH_TRIGGER_GPIO_Port, TRIGGER_Pin, GPIO_PIN_RESET);
-                servo_speed_set(5, 3);
+                HAL_GPIO_WritePin(DIR_PULL_GPIO_Port, DIR_PULL_Pin, GPIO_PIN_RESET);
+                servo_speed_set(4, 4);
+                shoot_control.trigger_time--;
             }
             else
             {
                 shoot_control.move_flag = 1;
-                shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
             }
         }
     else
         { 
-                shoot_control.move_flag = 0;
-                shoot_control.step_time = 100;
-                shoot_control.half_angle = 0;
-                shoot_control.shoot_mode = SHOOT_READY;        
+                shoot_control.move_flag     =   0;
+                shoot_control.step_time     =   100;
+                shoot_control.trigger_time  =   400;
+                shoot_control.half_angle    =   0;
+                shoot_control.shoot_mode    =   SHOOT_READY;        
         }
 }
 

@@ -31,5 +31,12 @@ void servo_speed_set(uint16_t speed, uint8_t i)
             HAL_GPIO_WritePin(TRIGGER_GPIO_Port, TRIGGER_Pin, GPIO_PIN_RESET);
             delay_ms(speed);
         }break;
+        case 4:
+        {
+            HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_SET);
+            delay_ms(speed);
+            HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_RESET);
+            delay_ms(speed);
+        }
     }
 }

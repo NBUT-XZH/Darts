@@ -58,16 +58,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define DIR_TRIGGER_Pin GPIO_PIN_8
-#define DIR_TRIGGER_GPIO_Port GPIOB
-#define TRIGGER_PUL_Pin GPIO_PIN_9
-#define TRIGGER_PUL_GPIO_Port GPIOB
+#define DIR_PULL_Pin GPIO_PIN_8//
+#define DIR_PULL_GPIO_Port GPIOB//
+#define PULL_PUL_Pin GPIO_PIN_9//
+#define PULL_PUL_GPIO_Port GPIOB//
 #define BUTTON_TRIG_Pin GPIO_PIN_7
 #define BUTTON_TRIG_GPIO_Port GPIOI
 #define PUSH_TRIGGER_Pin GPIO_PIN_0
 #define PUSH_TRIGGER_GPIO_Port GPIOF
-#define TRIGGER_Pin GPIO_PIN_1
-#define TRIGGER_GPIO_Port GPIOF
+#define TRIGGER_Pin GPIO_PIN_1//
+#define TRIGGER_GPIO_Port GPIOF//
 #define RSTN_IST8310_Pin GPIO_PIN_6
 #define RSTN_IST8310_GPIO_Port GPIOG
 #define LED_R_Pin GPIO_PIN_12
@@ -99,10 +99,10 @@ void Error_Handler(void);
 #define INT1_GYRO_Pin GPIO_PIN_5
 #define INT1_GYRO_GPIO_Port GPIOC
 #define INT1_GYRO_EXTI_IRQn EXTI9_5_IRQn
-#define DIR_YAW_Pin GPIO_PIN_12
-#define DIR_YAW_GPIO_Port GPIOB
-#define DIR_PITCH_Pin GPIO_PIN_13
-#define DIR_PITCH_GPIO_Port GPIOB
+#define DIR_YAW_Pin GPIO_PIN_12//
+#define DIR_YAW_GPIO_Port GPIOB//
+#define DIR_PITCH_Pin GPIO_PIN_13//
+#define DIR_PITCH_GPIO_Port GPIOB//
 #define CS1_GYRO_Pin GPIO_PIN_0
 #define CS1_GYRO_GPIO_Port GPIOB
 #define PUSH_IN1_Pin GPIO_PIN_14
