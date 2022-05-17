@@ -22,12 +22,29 @@ Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
 E:\Darts\MDK-ARM\DARTS.uvprojx
-Project File Date:  05/15/2022
+Project File Date:  05/18/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\keil\ARM\ARMCC\Bin'
 Build target 'DARTS'
-"DARTS\DARTS.axf" - 0 Error(s), 0 Warning(s).
+compiling shoot_task.c...
+..\application\shoot_task.c(126): warning:  #69-D: integer conversion resulted in truncation
+      shoot_control.trigger_time = 400;
+..\application\shoot_task.c(537): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          shoot_control.trigger_set_angle = rad_format(shoot_control.trigger_angle + TRIGGER_ONCE);
+..\application\shoot_task.c(545): warning:  #223-D: function "trigger_motor_turn_back" declared implicitly
+          trigger_motor_turn_back();
+..\application\shoot_task.c(578): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+                  shoot_control.pull_set_angle = rad_format(shoot_control.pull_angle + PULL_ONCE);
+..\application\shoot_task.c(500): warning:  #177-D: function "pull_motor_turn_back"  was declared but never referenced
+  static void pull_motor_turn_back(void)
+..\application\shoot_task.c(531): warning:  #177-D: function "shoot_bullet_control"  was declared but never referenced
+  static void shoot_bullet_control(void)
+..\application\shoot_task.c: 6 warnings, 0 errors
+linking...
+Program Size: Code=34136 RO-data=608 RW-data=624 ZI-data=52400  
+FromELF: creating hex file...
+"DARTS\DARTS.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -50,7 +67,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.5.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

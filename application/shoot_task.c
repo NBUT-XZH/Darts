@@ -573,7 +573,7 @@ static void shoot_stepping_control(void)
                 servo_speed_set(4, 4);
                 shoot_control.trigger_time--;
             }
-            else
+            if(shoot_control.step_time <= 0 && shoot_control.trigger_time <= 0)
             {
                 shoot_control.move_flag = 1;
             }
