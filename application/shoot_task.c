@@ -122,7 +122,7 @@ void shoot_task(void const *pvParameters)
 void shoot_init(void)
 {
     laser_on();
-	shoot_control.step_time = 100;
+	  shoot_control.step_time = 100;
     shoot_control.trigger_time = 400;
     static const fp32 Trigger_speed_pid[3] = {TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD};
     static const fp32 Fric_speed_pid[3] = {FRIC_SPEED_PID_KP, FRIC_SPEED_PID_KI, FRIC_SPEED_PID_KD};
@@ -569,7 +569,7 @@ static void shoot_stepping_control(void)
             }
             if(shoot_control.step_time <= 0 && shoot_control.trigger_time > 0)
             {
-                HAL_GPIO_WritePin(DIR_PULL_GPIO_Port, DIR_PULL_Pin, GPIO_PIN_RESET);
+                HAL_GPIO_WritePin(TRIGGER_DIR_GPIO_Port, TRIGGER_DIR_Pin, GPIO_PIN_RESET);
                 servo_speed_set(4, 4);
                 shoot_control.trigger_time--;
             }
