@@ -21,6 +21,8 @@
     |  YAW_DIR-       PITCH_DIR-      PITCH_PUL-      YAW_PUL-  |
     | TRIGGER_DIR-   TRIGGER_PUL-        GND             5v     |
     |___________________________________________________________|
+                 
+                 
                      （C板IO口接线）      
 2、摩擦轮电机ID：
 L1:1       R1:5        

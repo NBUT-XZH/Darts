@@ -561,7 +561,7 @@ static void shoot_stepping_control(void)
 {
     if (shoot_control.move_flag == 0)
         {
-            if(shoot_control.step_time > 0 && shoot_control.trigger_time == 400)
+            if(shoot_control.step_time > 0)
             {
                 HAL_GPIO_WritePin(PUSH_TRIGGER_GPIO_Port, TRIGGER_Pin, GPIO_PIN_RESET);
                 servo_speed_set(5, 3);
