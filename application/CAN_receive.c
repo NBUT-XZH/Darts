@@ -37,17 +37,32 @@ extern CAN_HandleTypeDef hcan2;
     (ptr)->temperate = (data)[6];                                  \
   }
 
+//激光测距状态接受
+#define get_sensor_measure(ptr, data)                                 \
+  {                                                                   \
+      (ptr)->signal_strength = (uint16_t)((data)[4] << 8 | (data)[5]);\
+      (ptr)->dis_status = (uint8_t)(data)[3];                         \
+      (ptr)->dis2 = (uint16_t)((data)[2] << 8 | (data)[1]);           \
+      (ptr)->dis1 = (uint8_t)(data)[0];                               \
+      (ptr)->dis0 = (ptr)->dis2 * 256 + (ptr)->dis1;                  \
+      (ptr)->dis = (ptr)->dis0*1.000/1000;                            \
+  }
+
 /*
 锟斤拷锟斤拷锟斤拷锟�, 
 
 */
 static motor_measure_t motor_shoot[8];
+static sensor_measure_t sensor[8];
 
 static CAN_TxHeaderTypeDef shoot_left_tx_message;
 static uint8_t shoot_left_can_send_data[8];
 
 static CAN_TxHeaderTypeDef shoot_right_tx_message;
 static uint8_t shoot_right_can_send_data[8];
+
+static CAN_TxHeaderTypeDef laser_distance_tx_message;
+static uint8_t laser_distance_can_send_data[8];
 
 /**
   * @brief          hal锟斤拷CAN锟截碉拷锟斤拷锟斤拷,锟斤拷锟秸碉拷锟斤拷锟斤拷锟�
@@ -61,31 +76,47 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
   HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, rx_data);
 
-  switch (rx_header.StdId)
+  if(hcan == &hcan1)
   {
-  case CAN_LEFT_3508_M1_ID:
-  case CAN_LEFT_3508_M2_ID:
-  case CAN_LEFT_3508_M3_ID:
-  case CAN_TRIGGER_MOTOR_ID:
-  case CAN_RIGHT_3508_M4_ID:
-  case CAN_RIGHT_3508_M5_ID:
-  case CAN_RIGHT_3508_M6_ID:
-  case CAN_PULL_2006_ID:
-  {
+    switch (rx_header.StdId)
+    {
+      case CAN_LEFT_3508_M1_ID:
+      case CAN_LEFT_3508_M2_ID:
+      case CAN_LEFT_3508_M3_ID:
+      case CAN_TRIGGER_MOTOR_ID:
+      case CAN_RIGHT_3508_M4_ID:
+      case CAN_RIGHT_3508_M5_ID:
+      case CAN_RIGHT_3508_M6_ID:
+      case CAN_PULL_2006_ID:
+      {
 
-    static uint8_t i = 0;
-    //get motor id
-    i = rx_header.StdId - CAN_LEFT_3508_M1_ID;
-    get_motor_measure(&motor_shoot[i], rx_data);
-  }
+        static uint8_t i = 0;
+        //get motor id
+        i = rx_header.StdId - CAN_LEFT_3508_M1_ID;
+        get_motor_measure(&motor_shoot[i], rx_data);
+      }
 
-  default:
+      default:
+      {
+        break;
+      }
+    }
+  }  
+
+  if(hcan == &hcan2)
   {
-    break;
-  }
+    switch (rx_header.StdId)
+    {
+      case CAN_LASER_DISTANCE_ID:
+      {
+          static uint8_t i = 0;
+          //get motor id
+          i = rx_header.StdId - CAN_LASER_DISTANCE_ID;
+          get_sensor_measure(&sensor[i], rx_data);
+      }
+    }
   }
 }
-
 /**
   * @brief          锟斤拷锟酵碉拷锟斤拷锟斤拷频锟斤拷锟�(0x205,0x206,0x207,0x208)
   * @param[in]      left_fric: (0x205) 3508锟斤拷锟斤拷锟斤拷频锟斤拷锟�, 锟斤拷围 [-16384,16384]
@@ -132,6 +163,27 @@ void CAN_cmd_right_shoot(int16_t motor1, int16_t motor2, int16_t motor3, int16_t
   HAL_CAN_AddTxMessage(&SHOOT_CAN, &shoot_right_tx_message, shoot_right_can_send_data, &send_mail_box);
 }
 
+
+void CAN2_cmd_sensor(int16_t laser, int16_t model2, int16_t model3, int16_t model4)
+{
+  uint32_t send_mail_box;
+  laser_distance_tx_message.StdId = CAN_LEFT_SHOOT_ALL_ID;
+  laser_distance_tx_message.IDE = CAN_ID_STD;
+  laser_distance_tx_message.RTR = CAN_RTR_DATA;
+  laser_distance_tx_message.DLC = 0x08;
+  shoot_left_can_send_data[0] = (laser >> 8);
+  shoot_left_can_send_data[1] = laser;
+  shoot_left_can_send_data[2] = (model2 >> 8);
+  shoot_left_can_send_data[3] = model2;
+  shoot_left_can_send_data[4] = (model3 >> 8);
+  shoot_left_can_send_data[5] = model3;
+  shoot_left_can_send_data[6] = (model4 >> 8);
+  shoot_left_can_send_data[7] = model4;
+
+  HAL_CAN_AddTxMessage(&hcan2, &laser_distance_tx_message, laser_distance_can_send_data, &send_mail_box);
+}
+
+
 /**
   * @brief          锟斤拷锟截诧拷锟斤拷锟斤拷锟� 3508锟斤拷锟斤拷锟斤拷锟街革拷锟�
   * @param[in]      none
@@ -176,3 +228,9 @@ const motor_measure_t *get_fric_motor_measure_point(uint8_t i)
 {
   return &motor_shoot[i];
 }
+
+const sensor_measure_t *get_sensor_measure_point(uint8_t i)
+{
+  return &sensor[i];
+}
+

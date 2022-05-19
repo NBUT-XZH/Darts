@@ -168,42 +168,17 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ch</ItemText>
+          <ItemText>shoot_control.shoot_mode,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>TRIGGER_ANGLE_PID_KP</ItemText>
+          <ItemText>shoot_control.step_time,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>shoot_control.pull_given_current,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>5</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>shoot_control.fric_motor[R1].give_current,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>6</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>pull_move-&gt;pull_RC-&gt;rc.ch[0],0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>7</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>shoot_control.shoot_mode,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>8</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>shoot_control.step_time,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>9</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>chassis_move,0x0A</ItemText>
+          <ItemText>sensor[0]</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

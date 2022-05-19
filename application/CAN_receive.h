@@ -24,6 +24,7 @@
 #include "struct_typedef.h"
 
 #define SHOOT_CAN hcan1
+#define LASER_DISTANCE hcan2
 
 
 /* CAN send and receive ID */
@@ -41,7 +42,12 @@ typedef enum
   CAN_RIGHT_3508_M5_ID = 0x206,
   CAN_RIGHT_3508_M6_ID = 0x207,
   CAN_PULL_2006_ID = 0x208,
-} can_msg_id_e;
+} can1_msg_id_e;
+typedef enum
+{
+  CAN_SENSOR_ALL_ID = 0x200,
+  CAN_LASER_DISTANCE_ID = 0x201,
+} can2_msg_id_e;
 
 //rm motor data
 typedef struct
@@ -52,6 +58,17 @@ typedef struct
   uint8_t temperate;
   int16_t last_ecd;
 } motor_measure_t;
+
+typedef struct
+{
+    uint8_t dis1;
+    uint16_t dis2;
+    uint8_t dis_status;
+    uint16_t signal_strength;
+    int16_t dis0;
+    float dis;
+} sensor_measure_t;
+
 
 
 /**
@@ -66,7 +83,10 @@ extern void CAN_cmd_left_shoot(int16_t motor1, int16_t motor2, int16_t motor3, i
 
 extern void CAN_cmd_right_shoot(int16_t motor1, int16_t motor2, int16_t motor3, int16_t motor4);
 
+extern void CAN2_cmd_sensor(int16_t laser, int16_t model2, int16_t model3, int16_t model4);
+
 extern const motor_measure_t *get_trigger_motor_measure_point(void);
+
 extern const motor_measure_t *get_pull_motor_measure_point(void);
 
 /**
@@ -80,6 +100,6 @@ extern const motor_measure_t *get_right_fric_motor_measure_point(uint8_t i);
 
 extern const motor_measure_t *get_fric_motor_measure_point(uint8_t i);
 
-
+extern const sensor_measure_t *get_sensor_measure_point(uint8_t i);
 
 #endif
