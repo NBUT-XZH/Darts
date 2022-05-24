@@ -52,8 +52,8 @@ extern CAN_HandleTypeDef hcan2;
 锟斤拷锟斤拷锟斤拷锟�, 
 
 */
-static motor_measure_t motor_shoot[8];
-static sensor_measure_t sensor[8];
+motor_measure_t motor_shoot[8];
+sensor_measure_t sensor[8];
 
 static CAN_TxHeaderTypeDef shoot_left_tx_message;
 static uint8_t shoot_left_can_send_data[8];
@@ -164,24 +164,24 @@ void CAN_cmd_right_shoot(int16_t motor1, int16_t motor2, int16_t motor3, int16_t
 }
 
 
-void CAN2_cmd_sensor(int16_t laser, int16_t model2, int16_t model3, int16_t model4)
-{
-  uint32_t send_mail_box;
-  laser_distance_tx_message.StdId = CAN_LEFT_SHOOT_ALL_ID;
-  laser_distance_tx_message.IDE = CAN_ID_STD;
-  laser_distance_tx_message.RTR = CAN_RTR_DATA;
-  laser_distance_tx_message.DLC = 0x08;
-  shoot_left_can_send_data[0] = (laser >> 8);
-  shoot_left_can_send_data[1] = laser;
-  shoot_left_can_send_data[2] = (model2 >> 8);
-  shoot_left_can_send_data[3] = model2;
-  shoot_left_can_send_data[4] = (model3 >> 8);
-  shoot_left_can_send_data[5] = model3;
-  shoot_left_can_send_data[6] = (model4 >> 8);
-  shoot_left_can_send_data[7] = model4;
+// void CAN2_cmd_sensor(int16_t laser, int16_t model2, int16_t model3, int16_t model4)
+// {
+//   uint32_t send_mail_box;
+//   laser_distance_tx_message.StdId = CAN_LEFT_SHOOT_ALL_ID;
+//   laser_distance_tx_message.IDE = CAN_ID_STD;
+//   laser_distance_tx_message.RTR = CAN_RTR_DATA;
+//   laser_distance_tx_message.DLC = 0x08;
+//   shoot_left_can_send_data[0] = (laser >> 8);
+//   shoot_left_can_send_data[1] = laser;
+//   shoot_left_can_send_data[2] = (model2 >> 8);
+//   shoot_left_can_send_data[3] = model2;
+//   shoot_left_can_send_data[4] = (model3 >> 8);
+//   shoot_left_can_send_data[5] = model3;
+//   shoot_left_can_send_data[6] = (model4 >> 8);
+//   shoot_left_can_send_data[7] = model4;
 
-  HAL_CAN_AddTxMessage(&hcan2, &laser_distance_tx_message, laser_distance_can_send_data, &send_mail_box);
-}
+//   HAL_CAN_AddTxMessage(&hcan2, &laser_distance_tx_message, laser_distance_can_send_data, &send_mail_box);
+// }
 
 
 /**
