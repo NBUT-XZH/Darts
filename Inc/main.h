@@ -58,10 +58,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define PULL_DIR_Pin GPIO_PIN_7
+#define PULL_DIR_GPIO_Port GPIOB
 #define BUTTON_TRIG_Pin GPIO_PIN_7
 #define BUTTON_TRIG_GPIO_Port GPIOI
 #define PUSH_TRIGGER_Pin GPIO_PIN_0
 #define PUSH_TRIGGER_GPIO_Port GPIOF
+#define PULL_PUL_Pin GPIO_PIN_9
+#define PULL_PUL_GPIO_Port GPIOA
 #define TRIGGER_Pin GPIO_PIN_1
 #define TRIGGER_GPIO_Port GPIOF
 #define RSTN_IST8310_Pin GPIO_PIN_6

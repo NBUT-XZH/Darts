@@ -88,9 +88,6 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-
-
-
   HAL_Init();
 
   /* USER CODE BEGIN Init */
@@ -122,7 +119,6 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM3_Init();
   MX_TIM10_Init();
-  MX_USART1_UART_Init();
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim1);
@@ -138,7 +134,6 @@ int main(void)
   can_filter_init();
   delay_init();
   remote_control_init();
-  usart1_tx_dma_init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
