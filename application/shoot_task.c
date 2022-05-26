@@ -123,7 +123,7 @@ void shoot_init(void)
 {
     laser_on();
 	shoot_control.step_time = 100;
-    shoot_control.trigger_time = 400;
+    shoot_control.trigger_time = 200;
     static const fp32 Trigger_speed_pid[3] = {TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD};
     static const fp32 Fric_speed_pid[3] = {FRIC_SPEED_PID_KP, FRIC_SPEED_PID_KI, FRIC_SPEED_PID_KD};
     static const fp32 Pull_speed_pid[3] = {PULL_ANGLE_PID_KP, PULL_ANGLE_PID_KI, PULL_ANGLE_PID_KD};
@@ -586,7 +586,7 @@ static void shoot_stepping_control(void)
         { 
                 shoot_control.move_flag     =   0;
                 shoot_control.step_time     =   100;
-                shoot_control.trigger_time  =   400;
+                shoot_control.trigger_time  =   200;
                 shoot_control.half_angle    =   0;
                 shoot_control.shoot_mode    =   SHOOT_READY;        
         }
