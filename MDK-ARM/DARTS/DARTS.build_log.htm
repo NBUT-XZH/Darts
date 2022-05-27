@@ -27,19 +27,20 @@ Project File Date:  05/19/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\keil\ARM\ARMCC\Bin'
 Build target 'DARTS'
-compiling freertos.c...
 compiling shoot_task.c...
+..\application\shoot_task.c(44): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  fp32 shoot_fric_grade[4] = {0, 13.1 * FRIC_REFEREE_PARA, 18 * FRIC_REFEREE_PARA, 30 * FRIC_REFEREE_PARA};
 ..\application\shoot_task.c(540): warning:  #1035-D: single-precision operand implicitly converted to double-precision
           shoot_control.trigger_set_angle = rad_format(shoot_control.trigger_angle + TRIGGER_ONCE);
 ..\application\shoot_task.c(548): warning:  #223-D: function "trigger_motor_turn_back" declared implicitly
           trigger_motor_turn_back();
 ..\application\shoot_task.c(534): warning:  #177-D: function "shoot_bullet_control"  was declared but never referenced
   static void shoot_bullet_control(void)
-..\application\shoot_task.c: 3 warnings, 0 errors
+..\application\shoot_task.c: 4 warnings, 0 errors
 linking...
 Program Size: Code=37524 RO-data=608 RW-data=620 ZI-data=52252  
 FromELF: creating hex file...
-"DARTS\DARTS.axf" - 0 Error(s), 3 Warning(s).
+"DARTS\DARTS.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -62,7 +63,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.5.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
