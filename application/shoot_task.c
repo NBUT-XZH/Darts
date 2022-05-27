@@ -572,8 +572,8 @@ static void shoot_stepping_control(void)
             }
             if(shoot_control.step_time <= 0 && shoot_control.pull_time > 0)
             {
-                HAL_GPIO_WritePin(PULL_DIR_GPIO_Port, PULL_DIR_Pin, GPIO_PIN_RESET);
-                servo_speed_set(4, 4);
+                HAL_GPIO_WritePin(PULL_DIR_GPIO_Port, PULL_DIR_Pin, GPIO_PIN_SET);
+                servo_speed_set(5, 4);
 
                 shoot_control.pull_time--;
             }
