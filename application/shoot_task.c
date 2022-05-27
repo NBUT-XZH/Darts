@@ -123,7 +123,7 @@ void shoot_init(void)
 {
     laser_on();
 	shoot_control.step_time = 100;
-    shoot_control.trigger_time = 200;
+    shoot_control.pull_time = 400;
     static const fp32 Trigger_speed_pid[3] = {TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD};
     static const fp32 Fric_speed_pid[3] = {FRIC_SPEED_PID_KP, FRIC_SPEED_PID_KI, FRIC_SPEED_PID_KD};
     static const fp32 Pull_speed_pid[3] = {PULL_ANGLE_PID_KP, PULL_ANGLE_PID_KI, PULL_ANGLE_PID_KD};
@@ -365,7 +365,7 @@ void shoot_set_control(void)
     if (shoot_control.shoot_mode == SHOOT_STOP)
     {
         shoot_control.step_time     =   100;
-        shoot_control.trigger_time  =   400;
+        shoot_control.pull_time  =   400;
 
         shoot_control.pull_given_current = 0;
         shoot_control.trigger_given_current = 0;
@@ -570,14 +570,14 @@ static void shoot_stepping_control(void)
                 servo_speed_set(5, 3);
                 shoot_control.step_time--;
             }
-            if(shoot_control.step_time <= 0 && shoot_control.trigger_time > 0)
+            if(shoot_control.step_time <= 0 && shoot_control.pull_time > 0)
             {
                 HAL_GPIO_WritePin(PULL_DIR_GPIO_Port, PULL_DIR_Pin, GPIO_PIN_RESET);
                 servo_speed_set(4, 4);
 
-                shoot_control.trigger_time--;
+                shoot_control.pull_time--;
             }
-            if(shoot_control.step_time <= 0 && shoot_control.trigger_time <= 0)
+            if(shoot_control.step_time <= 0 && shoot_control.pull_time <= 0)
             {
                 shoot_control.move_flag = 1;
             }
@@ -586,7 +586,7 @@ static void shoot_stepping_control(void)
         { 
                 shoot_control.move_flag     =   0;
                 shoot_control.step_time     =   100;
-                shoot_control.trigger_time  =   200;
+                shoot_control.pull_time     =   400;
                 shoot_control.half_angle    =   0;
                 shoot_control.shoot_mode    =   SHOOT_READY;        
         }
