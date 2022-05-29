@@ -564,13 +564,13 @@ static void trigger_stepping_control(void)
         if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 0)
         {
             HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_SET);
-            shoot_control.step_time = 4;
+            shoot_control.step_time = 7;
             shoot_control.pull_gpio_flag = 1;
         }
         if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 1)
         {
             HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_RESET);
-            shoot_control.step_time = 4;
+            shoot_control.step_time = 7;
             shoot_control.pull_gpio_flag = 0;
             shoot_control.pull_time--;
         }
