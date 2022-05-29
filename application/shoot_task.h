@@ -99,9 +99,9 @@
 
 
 //拨弹轮电机PID
-#define TRIGGER_ANGLE_PID_KP        10.0f  //800
-#define TRIGGER_ANGLE_PID_KI        0.0f  //0.5
-#define TRIGGER_ANGLE_PID_KD        100.0f
+#define TRIGGER_ANGLE_PID_KP        10.0f  //800 //10.0f
+#define TRIGGER_ANGLE_PID_KI        0.0f   //0.5  //0.0f
+#define TRIGGER_ANGLE_PID_KD        100.0f  //0.0  //100.0f
 
 #define TRIGGER_BULLET_PID_MAX_OUT  10000.0f
 #define TRIGGER_BULLET_PID_MAX_IOUT 9000.0f
@@ -144,10 +144,10 @@
 
 
 //拨盘格数
-#define TRIGGER_GRID_NUM 8.0f    
+#define TRIGGER_GRID_NUM 4   
 #define TRIGGER_ONCE 2.0*PI/TRIGGER_GRID_NUM
 
-#define PULL_GRID_NUM 4.0f    
+#define PULL_GRID_NUM 4   
 #define PULL_ONCE 2.0*PI/PULL_GRID_NUM
 
 #define L1 0

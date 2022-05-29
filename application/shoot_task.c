@@ -363,12 +363,14 @@ void shoot_set_control(void)
     else if (shoot_control.shoot_mode == SHOOT_BULLET)
     {
         //3508电机控制模式
-        trigger_stepping_control();
+        //trigger_stepping_control();
         
         shoot_control.pull_motor_pid.max_out  = PULL_BULLET_PID_MAX_OUT;
         shoot_control.pull_motor_pid.max_iout = PULL_BULLET_PID_MAX_IOUT;
         //步进电机控制模式
         //shoot_stepping_control();
+
+        shoot_bullet_control();
     }
     else if (shoot_control.shoot_mode == SHOOT_CONTINUE_BULLET)
     {
@@ -529,7 +531,7 @@ void trigger_set_control(void)
 {
     if(shoot_control.trigger_mode == TRIGGER_SPIN)
     {
-        shoot_control.trigger_speed_set = 300.0f * SHOOT_TRIGGER_DIRECTION;
+        shoot_control.trigger_speed_set = 600.0f * SHOOT_TRIGGER_DIRECTION;
     }
     if(shoot_control.trigger_mode == TRIGGER_STOP)
     {
@@ -550,7 +552,7 @@ static void trigger_stepping_control(void)
         shoot_control.trigger_mode = TRIGGER_SPIN;
         shoot_control.move_flag = 1;
     }
-    if(shoot_control.trigger_NB_angel - shoot_control.trigger_NB_last_angel >= 89.5f && shoot_control.pull_flag == 0)
+    if(shoot_control.trigger_NB_angel - shoot_control.trigger_NB_last_angel >= 88.5f && shoot_control.pull_flag == 0)
     {
         shoot_control.trigger_mode = TRIGGER_STOP;
         if(shoot_control.trigger_speed == 0 && shoot_control.pull_flag == 0)
@@ -564,13 +566,13 @@ static void trigger_stepping_control(void)
         if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 0)
         {
             HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_SET);
-            shoot_control.step_time = 7;
+            shoot_control.step_time = 4;
             shoot_control.pull_gpio_flag = 1;
         }
         if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 1)
         {
             HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_RESET);
-            shoot_control.step_time = 7;
+            shoot_control.step_time = 4;
             shoot_control.pull_gpio_flag = 0;
             shoot_control.pull_time--;
         }
@@ -628,11 +630,11 @@ static void shoot_bullet_control(void)
         shoot_control.move_flag = 1;
     }
     //到达角度判断
-    if (rad_format(shoot_control.trigger_set_angle - shoot_control.trigger_angle) > 0.005f)
+    if (rad_format(shoot_control.trigger_set_angle - shoot_control.trigger_angle) > 0.05f)
     {
         //没到达一直设置旋转速度
-        shoot_control.trigger_speed_set = shoot_grigger_grade[1] * SHOOT_TRIGGER_DIRECTION;
-        trigger_motor_turn_back();
+        shoot_control.trigger_speed_set = 600.0f * SHOOT_TRIGGER_DIRECTION;
+        //trigger_motor_turn_back();
     }
     else
     {
