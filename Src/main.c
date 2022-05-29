@@ -132,6 +132,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
 
   can_filter_init();
+  can_receive_init();
   delay_init();
   remote_control_init();
   /* USER CODE END 2 */

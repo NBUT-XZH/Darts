@@ -90,10 +90,18 @@ shoot_control_t shoot_control; //射击数据
 static void shoot_stepping_control(void);
 
 /**
-  * @brief          射击任务，初始化PID，遥控器指针，电机指针
+  * @brief          拨弹轮状态设置，每次前进90度停止
   * @param[in]      void
-  * @retval         返回空
+  * @retval         void
   */
+
+/**
+  * @brief          拨弹3508控制，控制拨弹电机角度，完成一次发射
+  * @param[in]      void
+  * @retval         void
+  */
+static void trigger_stepping_control(void);
+
 void shoot_task(void const *pvParameters)
 {
     //初始化延时
@@ -105,10 +113,13 @@ void shoot_task(void const *pvParameters)
     {
         shoot_set_mode();        //设置状态机
         shoot_feedback_update(); //更新数据
+        trigger_set_control();   //拨弹轮任务控制循环
         shoot_set_control();     //射击任务控制循环
+        
         //CAN发送
-        CAN_cmd_left_shoot(shoot_control.fric_motor[L1].give_current, shoot_control.fric_motor[L2].give_current, shoot_control.fric_motor[L3].give_current, shoot_control.trigger_given_current);
+        CAN_cmd_left_shoot(shoot_control.fric_motor[L1].give_current, shoot_control.fric_motor[L2].give_current, shoot_control.fric_motor[L3].give_current,0);
         CAN_cmd_right_shoot(shoot_control.fric_motor[R1].give_current, shoot_control.fric_motor[R2].give_current, shoot_control.fric_motor[R3].give_current, shoot_control.pull_given_current);
+        CAN2_cmd_sensor(0,shoot_control.trigger_given_current,0,0);
         //CAN_cmd_left_shoot(0, 0, shoot_control.fric_motor[L3].give_current, 0);
         vTaskDelay(SHOOT_CONTROL_TIME);
     }
@@ -122,11 +133,12 @@ void shoot_task(void const *pvParameters)
 void shoot_init(void)
 {
     laser_on();
-	shoot_control.step_time = 100;
+	shoot_control.step_time = 0;
     shoot_control.pull_time = 400;
-    static const fp32 Trigger_speed_pid[3] = {TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD};
-    static const fp32 Fric_speed_pid[3] = {FRIC_SPEED_PID_KP, FRIC_SPEED_PID_KI, FRIC_SPEED_PID_KD};
-    static const fp32 Pull_speed_pid[3] = {PULL_ANGLE_PID_KP, PULL_ANGLE_PID_KI, PULL_ANGLE_PID_KD};
+
+    static const fp32 Trigger_speed_pid[3]  = {TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD};
+    static const fp32 Fric_speed_pid[3]     = {FRIC_SPEED_PID_KP, FRIC_SPEED_PID_KI, FRIC_SPEED_PID_KD};
+    static const fp32 Pull_speed_pid[3]     = {PULL_ANGLE_PID_KP, PULL_ANGLE_PID_KI, PULL_ANGLE_PID_KD};
 
     shoot_control.shoot_mode = SHOOT_STOP;
     //遥控器指针
@@ -138,7 +150,7 @@ void shoot_init(void)
     }
     //电机指针 拨弹 推弹 摩擦轮
     shoot_control.trigger_motor_measure = shoot_control.motor_state[3];
-    shoot_control.pull_motor_measure = shoot_control.motor_state[7];
+    shoot_control.pull_motor_measure    = shoot_control.motor_state[7];
 
     shoot_control.fric_motor[L1].fric_motor_measure = shoot_control.motor_state[0];
     shoot_control.fric_motor[L2].fric_motor_measure = shoot_control.motor_state[1];
@@ -207,6 +219,11 @@ void shoot_init(void)
     shoot_control.pull_speed_set = 0.0f;
 
     shoot_control.move_flag = 0;
+    shoot_control.pull_flag = 0;    
+    shoot_control.pull_gpio_flag = 0;
+
+    shoot_control.trigger_NB_angel = 1.0*(shoot_control.trigger_motor_measure->round*360)/19+1.0*(shoot_control.trigger_motor_measure->ecd*360)/19/8192;
+    shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;  //先将初始角度赋值
 }
 /**
   * @brief          射击数据更新
@@ -225,6 +242,10 @@ static void shoot_feedback_update(void)
 
     shoot_control.fric_motor[L3].speed = shoot_control.fric_motor[L3].fric_motor_measure->speed_rpm * FRIC_RPM_TO_SPEED;
     shoot_control.fric_motor[R3].speed = shoot_control.fric_motor[R3].fric_motor_measure->speed_rpm * FRIC_RPM_TO_SPEED;
+    
+    shoot_control.trigger_speed = shoot_control.trigger_motor_measure->speed_rpm;
+    shoot_control.pull_speed = shoot_control.pull_motor_measure->speed_rpm;
+
     static fp32 speed_fliter_1 = 0.0f;
     static fp32 speed_fliter_2 = 0.0f;
     static fp32 speed_fliter_3 = 0.0f;
@@ -278,7 +299,7 @@ static void shoot_feedback_update(void)
     //计算输出轴角度
     shoot_control.trigger_angle = ( shoot_control.trigger_ecd_count * ECD_RANGE + shoot_control.trigger_motor_measure->ecd) * PULL_MOTOR_ECD_TO_ANGLE;
     shoot_control.pull_angle = ( shoot_control.pull_ecd_count * ECD_RANGE + shoot_control.pull_motor_measure->ecd) * PULL_MOTOR_ECD_TO_ANGLE;
-
+    shoot_control.trigger_NB_angel = 1.0f*(shoot_control.trigger_motor_measure->round*360)/19+1.0f*(shoot_control.trigger_motor_measure->ecd*360)/19/8192;
     //鼠标按键
     shoot_control.last_press_l = shoot_control.press_l;
     shoot_control.last_press_r = shoot_control.press_r;
@@ -308,14 +329,14 @@ void shoot_set_control(void)
     if (shoot_control.shoot_mode == SHOOT_STOP)
     {
         //设置拨弹轮的速度
-        shoot_control.trigger_speed_set = 0.0f;
+       shoot_control.trigger_mode = TRIGGER_STOP;
         //设置推弹速度
         shoot_control.pull_speed_set = 0.0f;
     }
     else if (shoot_control.shoot_mode == SHOOT_READY_FRIC)
     {
         //设置拨弹轮的速度
-        shoot_control.trigger_speed_set = 0.0f;
+        shoot_control.trigger_mode = TRIGGER_STOP;
         //设置推弹速度
         shoot_control.pull_speed_set = 0.0f;
     }
@@ -335,21 +356,19 @@ void shoot_set_control(void)
     else if (shoot_control.shoot_mode == SHOOT_READY)
     {
         //设置拨弹轮的速度
-        shoot_control.trigger_speed_set = 0.0f;
+        shoot_control.trigger_mode = TRIGGER_STOP;
         //设置推弹速度
         shoot_control.pull_speed_set = 0.0f;
     }
     else if (shoot_control.shoot_mode == SHOOT_BULLET)
     {
         //3508电机控制模式
-        // shoot_control.trigger_motor_pid.max_out = TRIGGER_BULLET_PID_MAX_OUT;
-        // shoot_control.trigger_motor_pid.max_iout = TRIGGER_BULLET_PID_MAX_IOUT;
-        // shoot_bullet_control();
+        trigger_stepping_control();
         
         shoot_control.pull_motor_pid.max_out  = PULL_BULLET_PID_MAX_OUT;
         shoot_control.pull_motor_pid.max_iout = PULL_BULLET_PID_MAX_IOUT;
         //步进电机控制模式
-        shoot_stepping_control();
+        //shoot_stepping_control();
     }
     else if (shoot_control.shoot_mode == SHOOT_CONTINUE_BULLET)
     {
@@ -358,17 +377,18 @@ void shoot_set_control(void)
     }
     else if (shoot_control.shoot_mode == SHOOT_DONE)
     {
-        shoot_control.trigger_speed_set = 0.0f;
+        shoot_control.trigger_mode = TRIGGER_STOP;
         shoot_control.pull_speed_set = 0.0f;
     }
 
     if (shoot_control.shoot_mode == SHOOT_STOP)
     {
-        shoot_control.step_time     =   100;
+        shoot_control.step_time  =   0;
         shoot_control.pull_time  =   400;
-
+        shoot_control.move_flag  =   0;
+        shoot_control.pull_flag  =   0;
         shoot_control.pull_given_current = 0;
-        shoot_control.trigger_given_current = 0;
+        shoot_control.trigger_mode = TRIGGER_STOP;
         shoot_control.fric_motor[L1].speed_set = 0.0f;
         shoot_control.fric_motor[R1].speed_set = 0.0f;
 
@@ -388,6 +408,8 @@ void shoot_set_control(void)
         PID_calc(&shoot_control.fric_speed_pid[L3], shoot_control.fric_motor[L3].speed, shoot_control.fric_motor[L3].speed_set);
         PID_calc(&shoot_control.fric_speed_pid[R3], shoot_control.fric_motor[R3].speed, shoot_control.fric_motor[R3].speed_set);
         
+        PID_calc(&shoot_control.trigger_motor_pid, shoot_control.trigger_speed, shoot_control.trigger_speed_set);
+
         shoot_control.fric_motor[L1].give_current = shoot_control.fric_speed_pid[L1].out;
         shoot_control.fric_motor[R1].give_current = shoot_control.fric_speed_pid[R1].out;
 
@@ -396,6 +418,9 @@ void shoot_set_control(void)
 
         shoot_control.fric_motor[L3].give_current = shoot_control.fric_speed_pid[L3].out;
         shoot_control.fric_motor[R3].give_current = shoot_control.fric_speed_pid[R3].out;
+    
+        shoot_control.trigger_given_current       = (int16_t)(shoot_control.trigger_motor_pid.out);
+
     }
     else
     {
@@ -500,6 +525,68 @@ static void shoot_set_mode(void)
     }
 }
 
+void trigger_set_control(void)
+{
+    if(shoot_control.trigger_mode == TRIGGER_SPIN)
+    {
+        shoot_control.trigger_speed_set = 300.0f * SHOOT_TRIGGER_DIRECTION;
+    }
+    if(shoot_control.trigger_mode == TRIGGER_STOP)
+    {
+        shoot_control.trigger_speed_set = 0.0f;
+    }
+}
+
+/**
+  * @brief          拨弹3508控制，控制拨弹电机角度，完成一次发射
+  * @param[in]      void
+  * @retval         void
+  */
+static void trigger_stepping_control(void)
+{
+    if (shoot_control.move_flag == 0)
+    {
+        shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;
+        shoot_control.trigger_mode = TRIGGER_SPIN;
+        shoot_control.move_flag = 1;
+    }
+    if(shoot_control.trigger_NB_angel - shoot_control.trigger_NB_last_angel >= 89.5f && shoot_control.pull_flag == 0)
+    {
+        shoot_control.trigger_mode = TRIGGER_STOP;
+        if(shoot_control.trigger_speed == 0 && shoot_control.pull_flag == 0)
+        {
+            shoot_control.pull_flag = 1;
+        }
+    }
+    if(shoot_control.pull_time > 0 && shoot_control.pull_flag == 1)
+    {
+        HAL_GPIO_WritePin(PULL_DIR_GPIO_Port, PULL_DIR_Pin, GPIO_PIN_SET);
+        if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 0)
+        {
+            HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_SET);
+            shoot_control.step_time = 4;
+            shoot_control.pull_gpio_flag = 1;
+        }
+        if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 1)
+        {
+            HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_RESET);
+            shoot_control.step_time = 4;
+            shoot_control.pull_gpio_flag = 0;
+            shoot_control.pull_time--;
+        }
+        shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;
+        shoot_control.step_time--;
+    }
+    if(shoot_control.pull_time <= 0 && shoot_control.pull_flag == 1)
+    {
+        shoot_control.move_flag = 0;
+        shoot_control.pull_flag = 0;
+        shoot_control.pull_time = 400;
+        shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;
+        shoot_control.shoot_mode = SHOOT_READY; 
+    }
+}
+
 static void pull_motor_turn_back(void)
 {
     if (shoot_control.block_time < BLOCK_TIME)
@@ -574,7 +661,6 @@ static void shoot_stepping_control(void)
             {
                 HAL_GPIO_WritePin(PULL_DIR_GPIO_Port, PULL_DIR_Pin, GPIO_PIN_SET);
                 servo_speed_set(5, 4);
-
                 shoot_control.pull_time--;
             }
             if(shoot_control.step_time <= 0 && shoot_control.pull_time <= 0)

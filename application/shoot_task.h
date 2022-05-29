@@ -99,9 +99,9 @@
 
 
 //拨弹轮电机PID
-#define TRIGGER_ANGLE_PID_KP        5900.0f  //800
+#define TRIGGER_ANGLE_PID_KP        10.0f  //800
 #define TRIGGER_ANGLE_PID_KI        0.0f  //0.5
-#define TRIGGER_ANGLE_PID_KD        0.0f
+#define TRIGGER_ANGLE_PID_KD        100.0f
 
 #define TRIGGER_BULLET_PID_MAX_OUT  10000.0f
 #define TRIGGER_BULLET_PID_MAX_IOUT 9000.0f
@@ -172,6 +172,12 @@ typedef enum
     SHOOT_DONE,      
 } shoot_mode_e;
 
+typedef enum
+{
+    TRIGGER_SPIN = 0, //拨弹轮转动
+    TRIGGER_STOP,  //拨弹轮停止
+}trigger_mode_e;
+
 typedef struct
 {
   const motor_measure_t *fric_motor_measure;
@@ -189,6 +195,7 @@ typedef struct
 typedef struct
 {
     shoot_mode_e shoot_mode;
+    trigger_mode_e trigger_mode;
     const RC_ctrl_t *shoot_rc;
     uint16_t shoot_last_key_v;
 
@@ -198,7 +205,9 @@ typedef struct
     fp32 trigger_speed;
     fp32 trigger_speed_set;
     fp32 trigger_angle;
-    fp32 trigger_set_angle;
+    fp32 trigger_set_angle;    
+    fp32 trigger_NB_angel;
+    fp32 trigger_NB_last_angel;
     int16_t trigger_given_current;
     int8_t trigger_ecd_count;
 
@@ -234,13 +243,15 @@ typedef struct
     uint16_t block_time;
     uint16_t reverse_time;
     bool_t move_flag;
+    bool_t pull_flag;
+    bool_t pull_gpio_flag;
     uint8_t step_time;
     uint16_t pull_time;
     uint8_t half_angle;
 
     const motor_measure_t *motor_state[8];
  
-} shoot_control_t;
+}shoot_control_t;
 
 
 
@@ -254,6 +265,7 @@ extern shoot_control_t shoot_control;          //射击数据
 extern void shoot_task(void const *pvParameters);
 extern void shoot_init(void);
 extern void shoot_set_control(void);
+extern void trigger_set_control(void);
 extern bool_t shoot_cmd_to_gimbal_stop(void);
 
 #endif
