@@ -243,7 +243,6 @@ static void shoot_feedback_update(void)
     shoot_control.fric_motor[L3].speed = shoot_control.fric_motor[L3].fric_motor_measure->speed_rpm * FRIC_RPM_TO_SPEED;
     shoot_control.fric_motor[R3].speed = shoot_control.fric_motor[R3].fric_motor_measure->speed_rpm * FRIC_RPM_TO_SPEED;
     
-    shoot_control.trigger_speed = shoot_control.trigger_motor_measure->speed_rpm;
     shoot_control.pull_speed = shoot_control.pull_motor_measure->speed_rpm;
 
     static fp32 speed_fliter_1 = 0.0f;
@@ -257,7 +256,7 @@ static void shoot_feedback_update(void)
     speed_fliter_1 = speed_fliter_2;
     speed_fliter_2 = speed_fliter_3;
     speed_fliter_3 = speed_fliter_2 * fliter_num[0] + speed_fliter_1 * fliter_num[1] + (shoot_control.pull_motor_measure->speed_rpm *PULL_MOTOR_RPM_TO_SPEED) * fliter_num[2];
-    shoot_control.pull_speed = speed_fliter_3;
+    shoot_control.trigger_speed = shoot_control.trigger_motor_measure->speed_rpm;
 
     //电机圈数重置， 因为输出轴旋转一圈， 电机轴旋转 36圈，将电机轴数据处理成输出轴数据，用于控制输出轴角度
     if (shoot_control.trigger_motor_measure->ecd - shoot_control.trigger_motor_measure->last_ecd > HALF_ECD_RANGE)
@@ -363,14 +362,14 @@ void shoot_set_control(void)
     else if (shoot_control.shoot_mode == SHOOT_BULLET)
     {
         //3508电机控制模式
-        //trigger_stepping_control();
-        
+        trigger_stepping_control();
+        //shoot_bullet_control();
         shoot_control.pull_motor_pid.max_out  = PULL_BULLET_PID_MAX_OUT;
         shoot_control.pull_motor_pid.max_iout = PULL_BULLET_PID_MAX_IOUT;
         //步进电机控制模式
         //shoot_stepping_control();
 
-        shoot_bullet_control();
+       
     }
     else if (shoot_control.shoot_mode == SHOOT_CONTINUE_BULLET)
     {
