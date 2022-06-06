@@ -562,7 +562,7 @@ static void trigger_stepping_control(void)
         shoot_control.trigger_mode = TRIGGER_SPIN;
         shoot_control.move_flag = 1;
     }
-    if(shoot_control.trigger_NB_angel - shoot_control.trigger_NB_last_angel >= 88.5f && shoot_control.pull_flag == 0)
+    if(shoot_control.trigger_NB_angel - shoot_control.trigger_NB_last_angel >= 89.0f && shoot_control.pull_flag == 0)
     {
         shoot_control.trigger_mode = TRIGGER_STOP;
         if(shoot_control.trigger_speed == 0 && shoot_control.pull_flag == 0)
@@ -677,7 +677,7 @@ static void trigger_pull_auto(void)
                 shoot_control.pull_flag = 0;
                 shoot_control.pull_time = 400;
                 shoot_control.shoot_would++;  
-                if(shoot_control.shoot_would == 5)
+                if(shoot_control.shoot_would == 4)
                 {
                     shoot_control.shoot_mode = SHOOT_READY;
                 }              
