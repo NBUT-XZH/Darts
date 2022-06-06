@@ -102,6 +102,13 @@ static void shoot_stepping_control(void);
   */
 static void trigger_stepping_control(void);
 
+/**
+  * @brief          全自动发射
+  * @param[in]      void
+  * @retval         void
+  */
+static void trigger_pull_auto(void);
+
 void shoot_task(void const *pvParameters)
 {
     //初始化延时
@@ -221,6 +228,9 @@ void shoot_init(void)
     shoot_control.move_flag = 0;
     shoot_control.pull_flag = 0;    
     shoot_control.pull_gpio_flag = 0;
+    shoot_control.first_pull_flag = 0;
+    shoot_control.shoot_would = 0;
+
 
     shoot_control.trigger_NB_angel = 1.0*(shoot_control.trigger_motor_measure->round*360)/19+1.0*(shoot_control.trigger_motor_measure->ecd*360)/19/8192;
     shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;  //先将初始角度赋值
@@ -388,6 +398,8 @@ void shoot_set_control(void)
         shoot_control.pull_time  =   400;
         shoot_control.move_flag  =   0;
         shoot_control.pull_flag  =   0;
+        shoot_control.first_pull_flag = 0;
+        shoot_control.shoot_would = 0;
         shoot_control.pull_given_current = 0;
         shoot_control.trigger_mode = TRIGGER_STOP;
         shoot_control.fric_motor[L1].speed_set = 0.0f;
@@ -586,6 +598,95 @@ static void trigger_stepping_control(void)
         shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;
         shoot_control.shoot_mode = SHOOT_READY; 
     }
+}
+
+static void trigger_pull_auto(void)
+{
+    if(shoot_control.first_pull_flag == 0)
+    {
+        if(shoot_control.pull_time > 0)
+        {
+            HAL_GPIO_WritePin(PULL_DIR_GPIO_Port, PULL_DIR_Pin, GPIO_PIN_SET);
+            if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 0)
+            {
+                HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_SET);
+                shoot_control.step_time = 4;
+                shoot_control.pull_gpio_flag = 1;
+            }
+            if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 1)
+            {
+                HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_RESET);
+                shoot_control.step_time = 4;
+                shoot_control.pull_gpio_flag = 0;
+                shoot_control.pull_time--;
+            }
+            shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;
+            shoot_control.step_time--;
+        }
+        if(shoot_control.pull_time <= 0)
+        {
+            shoot_control.first_pull_flag = 1;
+            shoot_control.pull_time = 400;
+            shoot_control.shoot_would = 1;
+            shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;
+        }
+ 
+    }
+    else if(shoot_control.first_pull_flag == 1)
+    {
+        if(shoot_control.pull_flag == 0)
+        {
+            if (shoot_control.move_flag == 0)
+            {
+                shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;
+                shoot_control.trigger_mode = TRIGGER_SPIN;
+                shoot_control.move_flag = 1;
+            }
+            if(shoot_control.trigger_NB_angel - shoot_control.trigger_NB_last_angel >= 88.5f)
+            {
+                shoot_control.trigger_mode = TRIGGER_STOP;
+                if(shoot_control.trigger_speed == 0 && shoot_control.pull_flag == 0)
+                {
+                    shoot_control.pull_flag = 1;
+                }
+            }
+        }
+        else if(shoot_control.pull_flag == 1)
+        {
+            if(shoot_control.pull_time > 0)
+            {
+                HAL_GPIO_WritePin(PULL_DIR_GPIO_Port, PULL_DIR_Pin, GPIO_PIN_SET);
+                if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 0)
+                {
+                    HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_SET);
+                    shoot_control.step_time = 4;
+                    shoot_control.pull_gpio_flag = 1;
+                }
+                if(shoot_control.step_time == 0 && shoot_control.pull_gpio_flag == 1)
+                {
+                    HAL_GPIO_WritePin(PULL_PUL_GPIO_Port, PULL_PUL_Pin, GPIO_PIN_RESET);
+                    shoot_control.step_time = 4;
+                    shoot_control.pull_gpio_flag = 0;
+                    shoot_control.pull_time--;
+                }
+                shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;
+                shoot_control.step_time--;
+            }
+            if(shoot_control.pull_time <= 0)
+            {
+                shoot_control.move_flag = 0;
+                shoot_control.pull_flag = 0;
+                shoot_control.pull_time = 400;
+                shoot_control.shoot_would++;  
+                if(shoot_control.shoot_would == 5)
+                {
+                    shoot_control.shoot_mode = SHOOT_READY;
+                }              
+                shoot_control.trigger_NB_last_angel = shoot_control.trigger_NB_angel;
+            }
+        }
+    }
+
 }
 
 static void pull_motor_turn_back(void)

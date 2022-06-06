@@ -245,6 +245,8 @@ typedef struct
     bool_t move_flag;
     bool_t pull_flag;
     bool_t pull_gpio_flag;
+    bool_t first_pull_flag;
+    bool_t shoot_would;
     uint8_t step_time;
     uint16_t pull_time;
     uint8_t half_angle;
