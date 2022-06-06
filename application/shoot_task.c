@@ -371,15 +371,14 @@ void shoot_set_control(void)
     }
     else if (shoot_control.shoot_mode == SHOOT_BULLET)
     {
-        //3508电机控制模式
-        trigger_stepping_control();
+        //3508拨弹电机控制模式
+        //trigger_stepping_control(); //每次发射一发
+        trigger_pull_auto(); //全自动
         //shoot_bullet_control();
         shoot_control.pull_motor_pid.max_out  = PULL_BULLET_PID_MAX_OUT;
         shoot_control.pull_motor_pid.max_iout = PULL_BULLET_PID_MAX_IOUT;
-        //步进电机控制模式
+        //步进拨弹电机控制模式
         //shoot_stepping_control();
-
-       
     }
     else if (shoot_control.shoot_mode == SHOOT_CONTINUE_BULLET)
     {
