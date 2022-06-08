@@ -3,7 +3,7 @@
 <title>Static Call Graph - [DARTS\DARTS.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image DARTS\DARTS.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Jun 06 21:05:01 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Jun 08 18:25:19 2022
 <BR><P>
 <H3>Maximum Stack Usage =        264 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1134,7 +1134,7 @@ Global Symbols
 
 <P><STRONG><a name="[14c]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f4xx_hal_gpio.o(i.HAL_GPIO_WritePin))
 <BR><BR>[Called By]<UL><LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
-<LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trigger_pull_auto
+<LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trigger_stepping_control
 <LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_speed_set
 <LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_set_control
 </UL>
@@ -2748,18 +2748,18 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shoot_task
 </UL>
 
-<P><STRONG><a name="[1cd]"></a>shoot_set_control</STRONG> (Thumb, 758 bytes, Stack size 56 bytes, shoot_task.o(i.shoot_set_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = shoot_set_control &rArr; trigger_pull_auto
+<P><STRONG><a name="[1cd]"></a>shoot_set_control</STRONG> (Thumb, 754 bytes, Stack size 56 bytes, shoot_task.o(i.shoot_set_control))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = shoot_set_control &rArr; trigger_stepping_control
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_calc
-<LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trigger_pull_auto
+<LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trigger_stepping_control
 <LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pull_motor_turn_back
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shoot_task
 </UL>
 
 <P><STRONG><a name="[7f]"></a>shoot_task</STRONG> (Thumb, 92 bytes, Stack size 0 bytes, shoot_task.o(i.shoot_task))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = shoot_task &rArr; shoot_set_control &rArr; trigger_pull_auto
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = shoot_task &rArr; shoot_set_control &rArr; trigger_stepping_control
 </UL>
 <BR>[Calls]<UL><LI><a href="#[18f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 <LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trigger_set_control
@@ -3779,8 +3779,8 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shoot_task
 </UL>
 
-<P><STRONG><a name="[1ce]"></a>trigger_pull_auto</STRONG> (Thumb, 388 bytes, Stack size 32 bytes, shoot_task.o(i.trigger_pull_auto))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = trigger_pull_auto
+<P><STRONG><a name="[1ce]"></a>trigger_stepping_control</STRONG> (Thumb, 232 bytes, Stack size 24 bytes, shoot_task.o(i.trigger_stepping_control))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = trigger_stepping_control
 </UL>
 <BR>[Calls]<UL><LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 </UL>
