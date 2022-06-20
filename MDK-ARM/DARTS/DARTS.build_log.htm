@@ -17,7 +17,7 @@ Library Manager: ArmAr.exe V5.06 update 7 (build 960)
 Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
 CPU DLL:         SARMCM3.DLL V5.35.0.2
 Dialog DLL:      DCM.DLL V1.17.3.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Target DLL:      CMSIS_AGDI.dll V1.33.0.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
@@ -28,19 +28,19 @@ Project File Date:  06/08/2022
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\keil\ARM\ARMCC\Bin'
 Build target 'DARTS'
 compiling shoot_task.c...
-..\application\shoot_task.c(44): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\application\shoot_task.c(45): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   fp32 shoot_fric_grade[4] = {0, 13.1 * FRIC_REFEREE_PARA, 18 * FRIC_REFEREE_PARA, 30 * FRIC_REFEREE_PARA};
-..\application\shoot_task.c(728): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\application\shoot_task.c(746): warning:  #1035-D: single-precision operand implicitly converted to double-precision
           shoot_control.trigger_set_angle = rad_format(shoot_control.trigger_angle + TRIGGER_ONCE);
-..\application\shoot_task.c(722): warning:  #177-D: function "shoot_bullet_control"  was declared but never referenced
+..\application\shoot_task.c(740): warning:  #177-D: function "shoot_bullet_control"  was declared but never referenced
   static void shoot_bullet_control(void)
-..\application\shoot_task.c(751): warning:  #177-D: function "shoot_stepping_control"  was declared but never referenced
+..\application\shoot_task.c(769): warning:  #177-D: function "shoot_stepping_control"  was declared but never referenced
   static void shoot_stepping_control(void)
-..\application\shoot_task.c(602): warning:  #177-D: function "trigger_pull_auto"  was declared but never referenced
-  static void trigger_pull_auto(void)
+..\application\shoot_task.c(575): warning:  #177-D: function "trigger_stepping_control"  was declared but never referenced
+  static void trigger_stepping_control(void)
 ..\application\shoot_task.c: 5 warnings, 0 errors
 linking...
-Program Size: Code=39848 RO-data=608 RW-data=632 ZI-data=52304  
+Program Size: Code=40012 RO-data=608 RW-data=692 ZI-data=52308  
 FromELF: creating hex file...
 "DARTS\DARTS.axf" - 0 Error(s), 5 Warning(s).
 
@@ -65,7 +65,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.5.0
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

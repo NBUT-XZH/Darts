@@ -25,6 +25,7 @@
 #include "bsp_fric.h"
 #include "arm_math.h"
 #include "user_lib.h"
+#include "referee.h"
 
 #include "CAN_receive.h"
 #include "pid.h"
@@ -142,6 +143,7 @@ void shoot_init(void)
     laser_on();
 	shoot_control.step_time = 0;
     shoot_control.pull_time = 400;
+    dartclient.dart_launch_opening_status = 1;
 
     static const fp32 Trigger_speed_pid[3]  = {TRIGGER_ANGLE_PID_KP, TRIGGER_ANGLE_PID_KI, TRIGGER_ANGLE_PID_KD};
     static const fp32 Fric_speed_pid[3]     = {FRIC_SPEED_PID_KP, FRIC_SPEED_PID_KI, FRIC_SPEED_PID_KD};
@@ -372,8 +374,11 @@ void shoot_set_control(void)
     else if (shoot_control.shoot_mode == SHOOT_BULLET)
     {
         //3508拨弹电机控制模式
-        trigger_stepping_control(); //每次发射一发
-        //trigger_pull_auto(); //全自动
+        //trigger_stepping_control(); //每次发射一发
+        // if(dartclient.dart_launch_opening_status == 0)
+        // {
+             trigger_pull_auto(); //全自动
+        // }
         //shoot_bullet_control();
         shoot_control.pull_motor_pid.max_out  = PULL_BULLET_PID_MAX_OUT;
         shoot_control.pull_motor_pid.max_iout = PULL_BULLET_PID_MAX_IOUT;
@@ -513,6 +518,15 @@ static void shoot_set_mode(void)
 
         shoot_control.shoot_last_key_v = shoot_control.shoot_rc->key.v;
 
+        // if(dartclient.dart_launch_opening_status == 2)
+        // {
+        //     shoot_control.shoot_mode = SHOOT_READY_FRIC;
+        // }
+        // else if(dartclient.dart_launch_opening_status == 1)
+        // {
+        //     shoot_control.shoot_mode = SHOOT_STOP;
+        // }
+
         //摩擦轮速度达到一定值,才可开启拨盘  为了便于测试,这里至少需要一个摩擦轮电机达到拨盘启动要求就可以开启拨盘
         // && (abs(shoot_control.fric_motor[L1].fric_motor_measure->speed_rpm) > abs(shoot_control.fric_motor[L1].require_speed) || abs(shoot_control.fric_motor[R1].fric_motor_measure->speed_rpm) > abs(shoot_control.fric_motor[R1].require_speed))
         if (shoot_control.shoot_mode == SHOOT_READY_FRIC)
@@ -531,6 +545,10 @@ static void shoot_set_mode(void)
             {
                 shoot_control.shoot_mode = SHOOT_BULLET;
             }
+            // if(dartclient.dart_launch_opening_status == 0)
+            // {
+            //     shoot_control.shoot_mode = SHOOT_BULLET;
+            // }
         }
 
         last_s = shoot_control.shoot_rc->rc.s[SHOOT_RC_MODE_CHANNEL];
@@ -538,7 +556,7 @@ static void shoot_set_mode(void)
 }
 
 void trigger_set_control(void)
-{
+{       
     if(shoot_control.trigger_mode == TRIGGER_SPIN)
     {
         shoot_control.trigger_speed_set = 600.0f * SHOOT_TRIGGER_DIRECTION;

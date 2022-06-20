@@ -79,6 +79,7 @@
 "darts\bsp_servo_pwm.o"
 "darts\bsp_spi.o"
 "darts\bsp_usart.o"
+"darts\referee.o"
 "darts\ahrs_middleware.o"
 "darts\user_lib.o"
 "..\components\algorithm\AHRS.lib"

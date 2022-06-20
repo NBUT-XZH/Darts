@@ -71,3 +71,5 @@ darts\shoot_task.o: ../components/algorithm/Include/arm_math.h
 darts\shoot_task.o: ../Drivers/CMSIS/Include/core_cm4.h
 darts\shoot_task.o: D:\keil\ARM\ARMCC\Bin\..\include\string.h
 darts\shoot_task.o: D:\keil\ARM\ARMCC\Bin\..\include\math.h
+darts\shoot_task.o: ../bsp/boards/referee.h
+darts\shoot_task.o: ../application/protocol.h
